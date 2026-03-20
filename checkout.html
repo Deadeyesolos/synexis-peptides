@@ -25,7 +25,10 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Stripe.js -->
+    <script src="https://js.stripe.com/v3/"></script>
     <style>
+
         .checkout-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -296,7 +299,8 @@
     <div class="checkout-container">
         <!-- Left: Forms -->
         <div class="checkout-left">
-            <form id="checkoutForm" onsubmit="event.preventDefault(); window.location.href='order-confirmation.html';">
+            <form id="checkoutForm">
+
                 
                 <div class="checkout-section">
                     <h2><i class="fas fa-envelope"></i> Contact Information</h2>
@@ -581,7 +585,70 @@
             document.getElementById('chkPostcode').value   = '2000';
             document.getElementById('chkAddressSearch').value = '123 Research Boulevard, Sydney NSW 2000';
         }
+
+
+        // ── Stripe Checkout Logic ──────────────────────────────
+        const checkoutForm = document.getElementById('checkoutForm');
+        const payBtn = document.querySelector('.pay-btn');
+
+        if (checkoutForm) {
+            checkoutForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // Disable button and show loading state
+                payBtn.disabled = true;
+                const originalBtnText = payBtn.innerHTML;
+                payBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+                try {
+                    const email = document.querySelector('input[type="email"]').value;
+                    let cart = JSON.parse(localStorage.getItem('synexis_cart_data')) || [];
+                    
+                    if (cart.length === 0) {
+                        alert('Your cart is empty.');
+                        payBtn.disabled = false;
+                        payBtn.innerHTML = originalBtnText;
+                        return;
+                    }
+
+                    // Calculate subtotal to get correct shipping
+                    let subtotal = 0;
+                    cart.forEach(item => subtotal += (item.price * item.qty));
+                    let shippingAmount = subtotal >= 200 ? 0 : 15.00;
+
+                    // Call our Vercel Serverless Function
+                    const response = await fetch('/api/checkout', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            items: cart,
+                            email: email,
+                            shipping: shippingAmount
+                        }),
+                    });
+
+                    const data = await response.json();
+
+                    if (data.url) {
+                        // Redirect to Stripe Checkout
+                        window.location.href = data.url;
+                    } else if (data.error) {
+                        throw new Error(data.error);
+                    } else {
+                        throw new Error('Something went wrong. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('Checkout Error:', error);
+                    alert('Checkout failed: ' + error.message);
+                    payBtn.disabled = false;
+                    payBtn.innerHTML = originalBtnText;
+                }
+            });
+        }
     </script>
+
 
     <!-- Google Places styled to match dark biotech theme -->
     <style>
