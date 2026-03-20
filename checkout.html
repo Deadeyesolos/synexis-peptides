@@ -376,28 +376,83 @@
                     </label>
                 </div>
 
-                <div class="checkout-section">
-                    <h2><i class="fas fa-credit-card"></i> Payment</h2>
-                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">All transactions are secure and encrypted.</p>
-                    
-                    <div style="padding: 24px; border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; background: rgba(59,130,246,0.03);">
-                        <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 12px; color: var(--text-white); font-weight: 600;">
-                            <i class="fab fa-stripe" style="font-size: 36px; color: #635bff;"></i>
-                            <span style="font-size: 15px; letter-spacing: 0.5px; text-transform: uppercase;">Secure Payment Gateway</span>
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden;">
+                        <div style="padding: 16px; background: rgba(59,130,246,0.1); border-bottom: 1px solid var(--border); color: var(--text-white); font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 10px;">
+                            <div style="width: 24px; height: 24px; border-radius: 6px; background: var(--primary); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-university" style="font-size: 12px; color: var(--text-white);"></i>
+                            </div>
+                            Bank Deposit
                         </div>
-                        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; max-width: 320px; margin: 0 auto 16px;">
-                            Complete your purchase securely via Stripe. You will be redirected to their encrypted environment to finalize the transaction.
-                        </p>
-                        <div style="display: flex; justify-content: center; gap: 16px; opacity: 0.6; color: var(--text-white);">
-                            <i class="fab fa-cc-visa" style="font-size: 20px;"></i>
-                            <i class="fab fa-cc-mastercard" style="font-size: 20px;"></i>
-                            <i class="fab fa-cc-amex" style="font-size: 20px;"></i>
-                            <i class="fab fa-apple-pay" style="font-size: 24px;"></i>
-                            <i class="fab fa-google-pay" style="font-size: 24px;"></i>
+                        <div style="padding: 24px;">
+                            <div style="margin-bottom: 24px;">
+                                <div style="color: var(--primary); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Step 1 — Transfer funds for secure payment:</div>
+                                <div style="background: rgba(0,0,0,0.2); padding: 16px; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.05); font-family: monospace; font-size: 13px;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                        <span style="color: var(--text-muted);">Account Name:</span>
+                                        <span style="color: var(--text-white);">Synexis Peptides</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                        <span style="color: var(--text-muted);">BSB:</span>
+                                        <span style="color: var(--text-white);">067-873</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="color: var(--text-muted);">Account Number:</span>
+                                        <span style="color: var(--text-white);">1970 8635</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div style="color: var(--primary); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Step 2 — <i class="fas fa-triangle-exclamation"></i> Important:</div>
+                                <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">
+                                    Orders will be manually processed once payment is confirmed. Please include your <strong style="color: var(--text-white);">FULL NAME</strong> as the payment reference to avoid any dispatch delays.
+                                </p>
+                                <p style="font-size: 12px; color: var(--text-muted); font-style: italic; margin-top: 12px; opacity: 0.7;">
+                                    * Orders without received payment within 48 hours will be cancelled automatically.
+                                </p>
+                            </div>
                         </div>
                     </div>
-
                 </div>
+
+                <div class="checkout-section">
+                    <h2><i class="fas fa-map-location-dot"></i> Billing Address</h2>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <label style="display: flex; align-items: center; gap: 12px; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; transition: 0.2s;" class="billing-opt active">
+                            <input type="radio" name="billing_choice" value="same" checked style="accent-color: var(--primary);">
+                            <span style="font-size: 14px; color: var(--text-light);">Same as shipping address</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 12px; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; transition: 0.2s;" class="billing-opt">
+                            <input type="radio" name="billing_choice" value="different" style="accent-color: var(--primary);">
+                            <span style="font-size: 14px; color: var(--text-light);">Use a different billing address</span>
+                        </label>
+                    </div>
+
+                    <!-- Hidden Billing Address Fields -->
+                    <div id="billingAddressFields" style="display: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); transition: all 0.3s ease;">
+                        <div class="form-group" style="margin-bottom: 16px;">
+                            <input type="text" id="billAddress" class="form-control" placeholder="Address" autocomplete="billing address-line1">
+                        </div>
+                        <div class="row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+                            <input type="text" id="billCity" class="form-control" placeholder="Suburb / City" autocomplete="billing address-level2">
+                            <select id="billState" class="form-control" autocomplete="billing address-level1">
+                                <option value="" disabled selected>State / Territory</option>
+                                <option value="NSW">NSW</option>
+                                <option value="NT">NT</option>
+                                <option value="QLD">QLD</option>
+                                <option value="SA">SA</option>
+                                <option value="TAS">TAS</option>
+                                <option value="VIC">VIC</option>
+                                <option value="WA">WA</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="billPostcode" class="form-control" placeholder="Postcode" autocomplete="billing postal-code">
+                        </div>
+                    </div>
+                </div>
+
+
 
                 <div style="margin-top: 32px; padding: 20px; background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.15); border-radius: var(--radius-sm);">
                     <label style="display: flex; align-items: flex-start; gap: 14px; cursor: pointer;">
@@ -409,7 +464,8 @@
                     </label>
                 </div>
 
-                <button type="submit" class="pay-btn"><i class="fas fa-lock" style="margin-right:8px; font-size:14px;"></i> Pay Now</button>
+                <button type="submit" class="pay-btn"><i class="fas fa-check-circle" style="margin-right:8px; font-size:14px;"></i> I've Paid, Complete My Order!</button>
+
             </form>
         </div>
 
