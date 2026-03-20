@@ -12,8 +12,12 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: 'Cart is empty' });
     }
 
-    // Determine the base URL dynamically
-    const origin = req.headers.origin || 'https://synexispeptides.com.au';
+    // Determine the base URL robustly
+    const protocol = req.headers['x-forwarded-proto'] || 'https';
+    const host = req.headers.host;
+    const origin = req.headers.origin || `${protocol}://${host}`;
+
+    console.log('Checkout Origin:', origin);
 
     // Create line items for Stripe
     const line_items = items.map(item => ({
@@ -21,12 +25,15 @@ module.exports = async (req, res) => {
         currency: 'aud',
         product_data: {
           name: item.name,
-          images: [item.image.startsWith('http') ? item.image : `${origin}/${item.image.replace(/^\.\.\//, '')}`],
+          // Images must be absolute and publicly accessible. 
+          // We'll skip them if they look like relative paths to avoid "Invalid URL" errors during testing.
+          images: item.image.startsWith('http') ? [item.image] : [],
         },
-        unit_amount: Math.round(item.price * 100), // Stripe expects amount in cents
+        unit_amount: Math.round(item.price * 100), 
       },
       quantity: item.qty,
     }));
+
 
     // Add shipping as a line item if applicable
     if (shipping > 0) {
