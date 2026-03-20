@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Track Your Order | Synexis Peptides</title>
+    <meta name="description" content="Track your Synexis Peptides research order. Enter your order number and email address to view live tracking status and Australian dispatch details.">
+    <link rel="canonical" href="https://synexispeptides.com.au/track-order.html" />
+    <meta property="og:title" content="Track Your Order | Synexis Peptides" />
+    <meta property="og:description" content="Track your Synexis Peptides research order. Enter your order number and email address to view live tracking status and Australian dispatch details." />
+    <meta property="og:url" content="https://synexispeptides.com.au/track-order.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://synexispeptides.com.au/Photos/logo.png" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .page-hero {
+            padding: 80px 20px;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(59,130,246,0.1) 0%, var(--bg-dark) 100%);
+            border-bottom: 1px solid var(--border);
+        }
+        .page-title {
+            font-size: 48px;
+            color: var(--text-white);
+            margin-bottom: 20px;
+        }
+        .page-subtitle {
+            font-size: 18px;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .tracking-section {
+            max-width: 800px;
+            margin: 60px auto 100px;
+            padding: 0 20px;
+        }
+
+        .tracking-form-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-lg);
+            padding: 50px 40px;
+            text-align: center;
+        }
+
+        .tracking-form-card i {
+            font-size: 42px;
+            color: var(--primary-light);
+            margin-bottom: 24px;
+        }
+
+        .tracking-form-card h2 {
+            font-size: 28px;
+            color: var(--text-white);
+            margin-bottom: 12px;
+        }
+
+        .tracking-form-card p {
+            color: var(--text-muted);
+            margin-bottom: 32px;
+        }
+
+        .track-inputs {
+            display: flex;
+            gap: 16px;
+            flex-direction: column;
+            max-width: 440px;
+            margin: 0 auto;
+        }
+
+        .track-inputs input {
+            width: 100%;
+            padding: 16px 20px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-sm);
+            color: var(--text-white);
+            font-size: 16px;
+            font-family: 'Outfit', sans-serif;
+            transition: var(--transition);
+        }
+
+        .track-inputs input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-dim);
+        }
+
+        .track-btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+        }
+
+        .track-btn:hover {
+            background: var(--primary-light);
+            box-shadow: 0 4px 20px var(--primary-glow);
+        }
+
+        /* Tracking Result UI */
+        .tracking-result {
+            display: none;
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .tracking-result.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .order-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-card);
+            margin-bottom: 32px;
+        }
+
+        .order-meta h3 {
+            font-size: 20px;
+            color: var(--text-white);
+        }
+
+        .order-meta .status-badge {
+            background: var(--primary-dim);
+            color: var(--primary-light);
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 10px;
+            bottom: 30px;
+            width: 2px;
+            background: var(--border-card);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 32px;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-icon {
+            position: absolute;
+            left: -33px;
+            top: 2px;
+            width: 18px;
+            height: 18px;
+            background: var(--bg-card);
+            border: 2px solid var(--border-card);
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .timeline-item.completed .timeline-icon {
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .timeline-item.active .timeline-icon {
+            background: var(--bg-dark);
+            border-color: var(--primary-light);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .timeline-item.active .timeline-icon::after {
+            content: '';
+            position: absolute;
+            top: 3px; left: 3px; right: 3px; bottom: 3px;
+            background: var(--primary-light);
+            border-radius: 50%;
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+        }
+
+        .timeline-item.completed .timeline-content {
+            border-color: rgba(59, 130, 246, 0.15);
+        }
+
+        .timeline-date {
+            font-size: 13px;
+            color: var(--text-dim);
+            margin-bottom: 6px;
+        }
+
+        .timeline-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-white);
+            margin-bottom: 4px;
+        }
+
+        .timeline-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="announcement-bar"><i class="fas fa-shipping-fast"></i> Free Express Shipping on Orders Over $200 &nbsp;|&nbsp; Australian Dispatch</div>
+    <nav class="navbar" id="mainNav">
+        <div class="nav-left">
+            <a href="index.html#products" class="nav-link shop-link">Shop</a>
+            <a href="index.html#best-sellers" class="nav-link">Best Sellers</a>
+            <a href="index.html#categories" class="nav-link">Blends</a>
+            <a href="calculator.html" class="nav-link">Calculator</a>
+        </div>
+        <div class="logo">
+            <a href="index.html"><img src="Photos/logo.png" alt="Synexis Peptides" class="nav-logo"></a>
+        </div>
+        <div class="nav-right">
+            <a href="coa.html" class="nav-link">Batch Testing</a>
+            <a href="index.html#faq" class="nav-link">FAQs</a>
+            <a href="index.html#contact" class="nav-link">Contact</a>
+            <div class="nav-icons">
+                <a href="#" class="icon-link cart-icon" title="Cart">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+        <button class="mobile-menu-btn" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+    </nav>
+    <div class="mobile-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="index.html#products" class="nav-link">Shop All</a>
+        <a href="coa.html" class="nav-link">Batch Testing (COA)</a>
+        <a href="calculator.html" class="nav-link">Calculator</a>
+        <a href="index.html#faq" class="nav-link">FAQs</a>
+        <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+
+    <header class="page-hero">
+        <h1 class="page-title">Track Your Order</h1>
+        <p class="page-subtitle">Enter your order number to view real-time dispatch and delivery updates for your research supplies.</p>
+    </header>
+
+    <section class="tracking-section">
+        <div class="tracking-form-card" id="trackingFormCard">
+            <i class="fas fa-location-crosshairs"></i>
+            <h2>Locate Your Parcel</h2>
+            <p>Your order number can be found in your confirmation email (e.g., #SYN-10492).</p>
+            <form onsubmit="handleTrackOrder(event)">
+                <div class="track-inputs">
+                    <input type="text" id="orderNumber" placeholder="Order Number (e.g. SYN-9304)" required>
+                    <input type="email" id="orderEmail" placeholder="Email Address" required>
+                    <button type="submit" class="track-btn">Track Order</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="tracking-result" id="trackingResult">
+            <button class="cta-button secondary" onclick="resetTracking()" style="margin-bottom: 24px;"><i class="fas fa-arrow-left"></i> Track Another Order</button>
+            
+            <div class="tracking-form-card" style="padding: 40px;">
+                <div class="order-meta">
+                    <div>
+                        <h3>Order <span id="resOrderNumber">#SYN----</span></h3>
+                        <p style="margin: 4px 0 0 0; font-size: 14px;">AusPost Express: <span style="color: var(--text-white); font-family: monospace;">EBA493820194AU</span></p>
+                    </div>
+                    <div class="status-badge" id="resStatusBadge">In Transit</div>
+                </div>
+
+                <div class="timeline" id="trackingTimeline">
+                    <!-- Injected dynamically -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col brand">
+                <div class="footer-logo-img">
+                    <img src="Photos/logo.png" alt="Synexis Peptides" class="footer-logo">
+                </div>
+                <p class="footer-brand-desc">Supplying research-grade peptides to Australian customers with transparent batch testing, fast dispatch, and a secure checkout experience.</p>
+                <p class="footer-support-info">
+                    Support: <a href="mailto:support@synexispeptides.com.au">support@synexispeptides.com.au</a><br>
+                    Response: 24–48 business hours
+                </p>
+                <div class="socials">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Twitter / X"><i class="fab fa-x-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-col links">
+                <h4>Shop</h4>
+                <a href="index.html#products">All Peptides</a>
+                <a href="index.html#best-sellers">Best Sellers</a>
+                <a href="calculator.html">Peptide Calculator</a>
+            </div>
+            <div class="footer-col links">
+                <h4>Support</h4>
+                <a href="index.html#contact">Contact Us</a>
+                <a href="index.html#faq">FAQs</a>
+                <a href="coa.html">Batch Testing (COA)</a>
+                <a href="#">Shipping Policy</a>
+                <a href="#">Refund Policy</a>
+            </div>
+            <div class="footer-col secure">
+                <h4>Secure Payments</h4>
+                <div class="payment-icons">
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-amex"></i>
+                    <i class="fab fa-bitcoin"></i>
+                </div>
+                <p class="footer-disclaimer-note">All products are sold for research purposes only. Not for human use.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Synexis Peptides. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Disclaimer</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Drawer (Global via script.js, hidden natively on this page) -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <!-- Kept functional because it's populated by JS -->
+        <div class="cart-header">
+            <h2>Your Cart</h2>
+            <button class="close-cart" id="closeCart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="shipping-progress-container">
+            <p class="shipping-text" id="shippingText">You are $200 away from Free Shipping</p>
+            <div class="shipping-bar-bg"><div class="shipping-bar-fill" id="shippingBar"></div></div>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-footer">
+            <div class="cart-subtotal"><span>Subtotal</span><span id="cartSubtotal">$0.00 AUD</span></div>
+            <a href="checkout.html" class="checkout-btn">Proceed to Checkout</a>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function handleTrackOrder(e) {
+            e.preventDefault();
+            const orderInput = document.getElementById('orderNumber').value.toUpperCase();
+            const emailInput = document.getElementById('orderEmail').value;
+            
+            if(!orderInput || !emailInput) return;
+
+            // Simple simulated logic
+            const formCard = document.getElementById('trackingFormCard');
+            const resultCard = document.getElementById('trackingResult');
+            const timelineBox = document.getElementById('trackingTimeline');
+            const resOrder = document.getElementById('resOrderNumber');
+            const btn = e.target.querySelector('button');
+            const ogText = btn.textContent;
+            
+            btn.textContent = 'Locating...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                formCard.style.display = 'none';
+                resOrder.textContent = orderInput.startsWith('#') ? orderInput : '#' + orderInput;
+                
+                // Simulate order state based on a hash of the order string
+                const hash = orderInput.split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
+                const absHash = Math.abs(hash);
+                
+                let scenario = 'transit';
+                if(absHash % 3 === 0) scenario = 'delivered';
+                if(absHash % 5 === 0) scenario = 'processing';
+
+                const today = new Date();
+                const dFormat = (offset) => {
+                    const d = new Date(today);
+                    d.setDate(d.getDate() - offset);
+                    return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', hour:'2-digit', minute:'2-digit' });
+                };
+
+                let html = '';
+                
+                if (scenario === 'delivered') {
+                    document.getElementById('resStatusBadge').textContent = 'Completed';
+                    document.getElementById('resStatusBadge').style.background = 'rgba(34, 197, 94, 0.1)';
+                    document.getElementById('resStatusBadge').style.color = 'var(--success)';
+                    document.getElementById('resStatusBadge').style.borderColor = 'rgba(34, 197, 94, 0.2)';
+                    
+                    html += `
+                        <div class="timeline-item completed">
+                            <div class="timeline-icon"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">${dFormat(0)}</div>
+                                <div class="timeline-title">Delivered</div>
+                                <div class="timeline-desc">Parcel left in a safe place or signed for.</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item completed">
+                            <div class="timeline-icon"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">${dFormat(1)}</div>
+                                <div class="timeline-title">Out for Delivery</div>
+                                <div class="timeline-desc">Onboard with driver for delivery today.</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item completed">
+                            <div class="timeline-icon"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">${dFormat(2)}</div>
+                                <div class="timeline-title">In Transit (AusPost)</div>
+                                <div class="timeline-desc">Processed through facility in destination state.</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item completed">
+                            <div class="timeline-icon"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">${dFormat(3)}</div>
+                                <div class="timeline-title">Order Dispatched</div>
+                                <div class="timeline-desc">Picked, packed and handed to courier.</div>
+                            </div>
+                        </div>
+                    `;
+                } else if (scenario === 'processing') {
+                    document.getElementById('resStatusBadge').textContent = 'Processing';
+                    document.getElementById('resStatusBadge').style.background = 'rgba(245, 158, 11, 0.1)';
+                    document.getElementById('resStatusBadge').style.color = 'var(--badge-low)';
+                    document.getElementById('resStatusBadge').style.borderColor = 'rgba(245, 158, 11, 0.2)';
+
+                    html += `
+                        <div class="timeline-item active">
+                            <div class="timeline-icon"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">Pending</div>
+                                <div class="timeline-title">Awaiting Dispatch</div>
+                                <div class="timeline-desc">Order is currently being picked and packed for shipment.</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item completed">
+                            <div class="timeline-icon"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">${dFormat(0)}</div>
+                                <div class="timeline-title">Order Confirmed</div>
+                                <div class="timeline-desc">Payment received and order verified.</div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('resStatusBadge').textContent = 'In Transit';
+                    document.getElementById('resStatusBadge').style.background = 'var(--primary-dim)';
+                    document.getElementById('resStatusBadge').style.color = 'var(--primary-light)';
+                    document.getElementById('resStatusBadge').style.borderColor = 'rgba(59, 130, 246, 0.2)';
+
+                    html += `
+                        <div class="timeline-item active">
+                            <div class="timeline-icon"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">${dFormat(0)}</div>
+                                <div class="timeline-title">In Transit (AusPost)</div>
+                                <div class="timeline-desc">Processed through facility. Arriving soon.</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item completed">
+                            <div class="timeline-icon"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">${dFormat(1)}</div>
+                                <div class="timeline-title">Order Dispatched</div>
+                                <div class="timeline-desc">Picked, packed and handed to courier.</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item completed">
+                            <div class="timeline-icon"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">${dFormat(1)}</div>
+                                <div class="timeline-title">Order Confirmed</div>
+                                <div class="timeline-desc">Payment received and order verified.</div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                timelineBox.innerHTML = html;
+                resultCard.classList.add('active');
+                
+                // Reset button purely for caching
+                btn.textContent = ogText;
+                btn.disabled = false;
+
+            }, 800);
+        }
+
+        function resetTracking() {
+            document.getElementById('trackingResult').classList.remove('active');
+            setTimeout(() => {
+                document.getElementById('trackingFormCard').style.display = 'block';
+                document.getElementById('orderNumber').value = '';
+                document.getElementById('orderEmail').value = '';
+            }, 300);
+        }
+    </script>
+</body>
+</html>

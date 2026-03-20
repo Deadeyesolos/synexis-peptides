@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Batch Testing Works | Research Knowledge Hub | Synexis Peptides</title>
+    <meta name="description" content="Understanding High-Performance Liquid Chromatography (HPLC) and Mass Spectrometry (MS) purity guidelines in peptide synthesis.">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .article-hero {
+            padding: 80px 20px 40px;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(59,130,246,0.1) 0%, var(--bg-dark) 100%);
+            border-bottom: 1px solid var(--border);
+        }
+        .article-category {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+        .article-title {
+            font-size: clamp(32px, 4vw, 48px);
+            color: var(--text-white);
+            margin-bottom: 24px;
+            line-height: 1.2;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .article-meta {
+            color: var(--text-muted);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+        
+        .article-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px 100px;
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .article-body {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-lg);
+            padding: 48px;
+        }
+        
+        .article-body h2 {
+            font-size: 24px;
+            color: var(--text-white);
+            margin: 40px 0 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-card);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .article-body h2:first-child {
+            margin-top: 0;
+        }
+        .article-body h2 i {
+            color: var(--primary);
+        }
+        .article-body h3 {
+            font-size: 20px;
+            color: var(--text-white);
+            margin: 32px 0 16px;
+        }
+        .article-body p {
+            font-size: 15.5px;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+        .article-body ul {
+            font-size: 15.5px;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            padding-left: 20px;
+        }
+        .article-body li {
+            margin-bottom: 10px;
+        }
+        .article-body strong {
+            color: var(--text-light);
+        }
+
+        .article-sidebar {
+            position: sticky;
+            top: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .sidebar-widget {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+        }
+        .sidebar-widget h3 {
+            font-size: 16px;
+            color: var(--text-white);
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Related Products Widget */
+        .widget-product {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-card);
+        }
+        .widget-product:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        .widget-product img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            background: #0b1020;
+            border-radius: var(--radius-sm);
+            padding: 6px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .widget-product-info h4 {
+            font-size: 14px;
+            color: var(--text-white);
+            margin-bottom: 4px;
+        }
+        .widget-product-info a {
+            color: var(--primary-light);
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* Related Articles Widget */
+        .widget-article {
+            display: block;
+            margin-bottom: 16px;
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.5;
+            transition: color 0.2s;
+        }
+        .widget-article:last-child {
+            margin-bottom: 0;
+        }
+        .widget-article:hover {
+            color: var(--primary-light);
+        }
+
+        @media (max-width: 900px) {
+            .article-container {
+                grid-template-columns: 1fr;
+            }
+            .article-sidebar {
+                position: static;
+            }
+        }
+        @media (max-width: 600px) {
+            .article-body {
+                padding: 32px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="announcement-bar">
+        <i class="fas fa-microscope"></i> HPLC Verified Purity &gt;99% &nbsp;|&nbsp; Strictly for Research Use Only
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="navbar" id="mainNav">
+        <div class="nav-left">
+            <a href="index.html#products" class="nav-link shop-link">Shop</a>
+            <a href="index.html#best-sellers" class="nav-link">Best Sellers</a>
+            <a href="index.html#categories" class="nav-link">Blends</a>
+            <a href="calculator.html" class="nav-link">Calculator</a>
+        </div>
+        <div class="logo">
+            <a href="index.html"><img src="Photos/logo.png" alt="Synexis Peptides" class="nav-logo"></a>
+        </div>
+        <div class="nav-right">
+            <a href="coa.html" class="nav-link">Batch Testing</a>
+            <a href="index.html#faq" class="nav-link">FAQs</a>
+            <a href="index.html#contact" class="nav-link">Contact</a>
+            <div class="nav-icons">
+                <a href="#" class="icon-link cart-icon"><i class="fas fa-shopping-bag"></i><span class="cart-count">0</span></a>
+            </div>
+        </div>
+        <button class="mobile-menu-btn" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+    </nav>
+    <div class="mobile-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="index.html#products" class="nav-link">Shop All</a>
+        <a href="coa.html" class="nav-link">Batch Testing (COA)</a>
+        <a href="calculator.html" class="nav-link">Calculator</a>
+        <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+
+    <header class="article-hero">
+        <span class="article-category">Quality Assurance</span>
+        <h1 class="article-title">The Science of HPLC Testing and Mass Spectrometry</h1>
+        <div class="article-meta">
+            <span><i class="far fa-calendar"></i> 14 Mar 2026</span>
+            <span><i class="far fa-clock"></i> 4 Min Read</span>
+        </div>
+    </header>
+
+    <div class="article-container">
+        
+        <main class="article-body">
+            <h2><i class="fas fa-microscope"></i> Verifying Purity</h2>
+            <p>In-vitro research demands compounds of the highest purity to yield definitive, replicable data. Impurities, heavy metals, or fragmented amino acid sequences introduced during the synthesis process can trigger cascade artifacts in a cellular model, entirely invalidating an experiment.</p>
+            <p>At Synexis Peptides, every batch of synthesized protein undergoes rigorous third-party analytical testing prior to being cleared for distribution to the research community.</p>
+            
+            <h2><i class="fas fa-chart-line"></i> High-Performance Liquid Chromatography (HPLC)</h2>
+            <p>HPLC is an advanced analytical technique used to separate, identify, and quantify the components within a mixture. During testing, a peptide sample is dissolved in a solvent and forced through a specific column under high pressure.</p>
+            <ul>
+                <li>Because varying molecular structures travel through the column at different speeds, the primary compound separates completely from any synthesis byproducts or impurities.</li>
+                <li>A UV detector logs the concentration of the molecules as they exit the column, plotting the data onto a chromatogram.</li>
+                <li>The purity percentage (>99%) is calculated by comparing the area of the primary peptide peak to the total area of all peaks combined.</li>
+            </ul>
+
+            <h2><i class="fas fa-atom"></i> Mass Spectrometry (MS)</h2>
+            <p>While HPLC confirms that the compound is pure, Mass Spectrometry is necessary to confirm that the pure compound is, in fact, the correct peptide sequence.</p>
+            <p>The pure eluent from the HPLC process is ionized and fired through a magnetic field. By analyzing the mass-to-charge ratio of the ions, the exact molecular weight of the sequence is verified. For example, if MS confirms a sample bears a molecular weight of 1419.55 g/mol, the lab can definitively verify the sequence identity as BPC-157.</p>
+        </main>
+
+        <aside class="article-sidebar">
+            <div class="sidebar-widget">
+                <h3><i class="fas fa-file-invoice"></i> Testing Registry</h3>
+                
+                <div class="widget-product">
+                    <div style="background:var(--bg-card); border:1px solid var(--border-card); border-radius:var(--radius-sm); width:60px; height:60px; display:flex; align-items:center; justify-content:center; font-size:24px; color:var(--primary);">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="widget-product-info">
+                        <h4>Batch Search</h4>
+                        <a href="coa.html">Find COA Documents &rarr;</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3><i class="fas fa-book-open"></i> Related Articles</h3>
+                <a href="understanding-bpc-157.html" class="widget-article">Understanding BPC-157: Structural Analysis</a>
+                <a href="tesamorelin-overview.html" class="widget-article">Overview of Tesamorelin: GHRH Analogue</a>
+                <a href="knowledge-hub.html" style="display:block; margin-top: 16px; color: var(--primary); font-size: 13px; font-weight: 600;">View Knowledge Hub &rarr;</a>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col brand">
+                <div class="footer-logo-img"><img src="Photos/logo.png" alt="Synexis Peptides" class="footer-logo"></div>
+                <p class="footer-brand-desc">Research-grade peptides. Australian dispatch. Research use only.</p>
+                <p class="footer-support-info">Support: <a href="mailto:support@synexispeptides.com.au">support@synexispeptides.com.au</a></p>
+            </div>
+            <div class="footer-col links">
+                <h4>Shop</h4>
+                <a href="index.html#products">All Peptides</a>
+                <a href="calculator.html">Peptide Calculator</a>
+            </div>
+            <div class="footer-col links">
+                <h4>Support</h4>
+                <a href="index.html#contact">Contact Us</a>
+                <a href="coa.html">Batch Testing</a>
+                <a href="research-policy.html">Research Policy</a>
+                <a href="lab-safety.html">Lab Safety</a>
+                <a href="knowledge-hub.html">Knowledge Hub</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Synexis Peptides. All products are supplied strictly for laboratory research purposes and are not approved for human consumption.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Drawer -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h2>Your Cart</h2>
+            <button class="close-cart" id="closeCart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="shipping-progress-container">
+            <p class="shipping-text" id="shippingText">You are $200 away from Free Shipping</p>
+            <div class="shipping-bar-bg"><div class="shipping-bar-fill" id="shippingBar"></div></div>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-footer">
+            <div class="cart-subtotal"><span>Subtotal</span><span id="cartSubtotal">$0.00 AUD</span></div>
+            <p class="cart-taxes-note">Taxes and shipping calculated at checkout</p>
+            <a href="checkout.html" class="checkout-btn">Proceed to Checkout</a>
+            <div class="cart-trust-badges" style="margin-top: 20px; text-align: left; display: flex; flex-direction: column; gap: 8px;">
+                <span style="font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 8px;"><i class="fas fa-check" style="color: var(--success); font-size: 14px;"></i> Secure encrypted checkout</span>
+                <span style="font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 8px;"><i class="fas fa-check" style="color: var(--success); font-size: 14px;"></i> Discreet packaging</span>
+                <span style="font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 8px;"><i class="fas fa-check" style="color: var(--success); font-size: 14px;"></i> Fast Australian dispatch</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg">Done!</span></div>
+    <script src="script.js"></script>
+</body>
+</html>

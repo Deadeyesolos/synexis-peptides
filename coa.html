@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Batch Testing & Quality Assurance | Synexis Peptides</title>
+    <meta name="description" content="Access Certificates of Analysis (COA) and quality assurance documentation for all Synexis Peptides batches. Verified HPLC purity for Australian research.">
+    <link rel="canonical" href="https://synexispeptides.com.au/coa.html" />
+    <meta property="og:title" content="Batch Testing & Quality Assurance | Synexis Peptides" />
+    <meta property="og:description" content="Access Certificates of Analysis (COA) and quality assurance documentation for all Synexis Peptides batches. Verified HPLC purity for Australian research." />
+    <meta property="og:url" content="https://synexispeptides.com.au/coa.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://synexispeptides.com.au/Photos/logo.png" />
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Synexis Peptides",
+      "url": "https://synexispeptides.com.au"
+    }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .page-hero {
+            padding: 80px 20px;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(59,130,246,0.1) 0%, var(--bg-dark) 100%);
+            border-bottom: 1px solid var(--border);
+        }
+        .page-title {
+            font-size: 48px;
+            color: var(--text-white);
+            margin-bottom: 20px;
+        }
+        .page-subtitle {
+            font-size: 18px;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .info-grid {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+        .info-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+        }
+        .info-icon {
+            font-size: 32px;
+            color: var(--primary-light);
+            margin-bottom: 20px;
+        }
+        .info-card h3 {
+            font-size: 24px;
+            color: var(--text-white);
+            margin-bottom: 16px;
+        }
+        .info-card p {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* Certificate Library */
+        .library-section {
+            max-width: 1200px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
+        }
+        .library-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .library-title {
+            font-size: 32px;
+            color: var(--text-white);
+        }
+        .library-search {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+        }
+        .library-search input {
+            width: 100%;
+            padding: 14px 20px 14px 48px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-sm);
+            color: var(--text-white);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        .library-search input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        .library-search i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .coa-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        .coa-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+        .coa-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .coa-thumb {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid var(--border-card);
+            padding: 10px;
+        }
+        .coa-info {
+            padding: 24px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .coa-name {
+            font-size: 18px;
+            color: var(--text-white);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .coa-purity {
+            font-size: 14px;
+            color: var(--success);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .coa-view-btn {
+            display: inline-block;
+            margin-top: auto;
+            text-align: center;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-card);
+            color: var(--text-white);
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        .coa-view-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+        }
+
+        /* Request Form */
+        .request-section {
+            max-width: 800px;
+            margin: 0 auto 100px;
+            padding: 60px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            text-align: center;
+        }
+        .request-section h2 {
+            font-size: 28px;
+            color: var(--text-white);
+            margin-bottom: 16px;
+        }
+        .request-section p {
+            color: var(--text-light);
+            margin-bottom: 40px;
+            font-size: 15px;
+        }
+        .request-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            text-align: left;
+        }
+        .request-form .full {
+            grid-column: 1 / -1;
+        }
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-sm);
+            color: var(--text-white);
+            font-family: inherit;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        .btn-submit {
+            grid-column: 1 / -1;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+        }
+        .btn-submit:hover {
+            background: var(--primary-light);
+        }
+
+        /* FAQ */
+        .coa-faq {
+            max-width: 800px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+        }
+        .coa-faq h2 {
+            font-size: 32px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        /* Modal */
+        .img-modal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .img-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .img-modal-content {
+            max-width: 90%;
+            max-height: 90vh;
+            position: relative;
+        }
+        .img-modal-img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: var(--radius-sm);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+        }
+        .close-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: #fff;
+            font-size: 30px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .info-grid { grid-template-columns: 1fr; }
+            .request-form { grid-template-columns: 1fr; }
+            .request-section { padding: 40px 20px; }
+            .library-header { flex-direction: column; align-items: flex-start; }
+            .library-search { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="announcement-bar">
+        <i class="fas fa-microscope"></i> HPLC Verified Purity &gt;99% &nbsp;|&nbsp; Australian Research Peptides
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="navbar" id="mainNav">
+        <div class="nav-left">
+            <a href="index.html#products" class="nav-link shop-link">Shop</a>
+            <a href="index.html#best-sellers" class="nav-link">Best Sellers</a>
+            <a href="index.html#categories" class="nav-link">Blends</a>
+            <a href="calculator.html" class="nav-link">Calculator</a>
+        </div>
+        <div class="logo">
+            <a href="index.html"><img src="Photos/logo.png" alt="Synexis Peptides" class="nav-logo"></a>
+        </div>
+        <div class="nav-right">
+            <a href="coa.html" class="nav-link active">Batch Testing</a>
+            <a href="index.html#faq" class="nav-link">FAQs</a>
+            <a href="index.html#contact" class="nav-link">Contact</a>
+            <div class="nav-icons">
+                <a href="#" class="icon-link cart-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+        <button class="mobile-menu-btn" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+    </nav>
+    <div class="mobile-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="index.html#products" class="nav-link">Shop All</a>
+        <a href="coa.html" class="nav-link active">Batch Testing (COA)</a>
+        <a href="calculator.html" class="nav-link">Calculator</a>
+        <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+
+    <section class="page-hero">
+        <h1 class="page-title">Batch Testing &amp; Quality Assurance</h1>
+        <p class="page-subtitle">Synexis Peptides is committed to uncompromising transparency. We utilise independent, third-party HPLC testing to verify sequence identity and purities exceeding 99%.</p>
+    </section>
+
+    <div class="info-grid">
+        <div class="info-card">
+            <div class="info-icon"><i class="fas fa-file-contract"></i></div>
+            <h3>What is a COA?</h3>
+            <p>A Certificate of Analysis (COA) is a verified document provided largely by independent analytical laboratories. It confirms the molecular sequence identity and calculates the percentage purity of the synthesised peptide, ensuring there are no dangerous impurities or degradation products prior to release for research use.</p>
+        </div>
+        <div class="info-card">
+            <div class="info-icon"><i class="fas fa-vial-circle-check"></i></div>
+            <h3>Why Batch Testing Matters</h3>
+            <p>In-vitro research demands strict structural consistency to yield reproducible, accurate data. Skipping rigorous quality assurance limits experimental reliability. We maintain strict batch testing protocols via High-Performance Liquid Chromatography (HPLC) and Mass Spectrometry (MS) to protect the integrity of your research data.</p>
+        </div>
+    </div>
+
+    <!-- Certificate Library -->
+    <section class="library-section">
+        <div class="library-header">
+            <h2 class="library-title">Current Batch Certificates</h2>
+            <div class="library-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="coaSearch" placeholder="Search by product name..." onkeyup="filterCOAs()">
+            </div>
+        </div>
+
+        <div class="coa-grid" id="coaGrid">
+            <!-- Injected via Script -->
+        </div>
+    </section>
+
+    <!-- Request Form -->
+    <section class="request-section">
+        <h2>Can't Find Your Batch?</h2>
+        <p>If you have an older batch number or require the complete PDF documentation for your institutional records, please submit a request including your order number below.</p>
+        
+        <form class="request-form" onsubmit="event.preventDefault(); showToast('Request submitted. Our support team will email your COA shortly.'); this.reset();">
+            <input type="text" class="form-control full" placeholder="Order Number (e.g., SPX-1234)" required>
+            <input type="text" class="form-control" placeholder="Product Name" required>
+            <input type="text" class="form-control" placeholder="Batch Number (optional)">
+            <input type="email" class="form-control full" placeholder="Your Email Address" required>
+            <button type="submit" class="btn-submit">Submit Request</button>
+        </form>
+    </section>
+
+    <!-- FAQ -->
+    <section class="coa-faq">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-list">
+            <div class="faq-item">
+                <button class="faq-question"><span>How do I find my batch number?</span><i class="fas fa-plus"></i></button>
+                <div class="faq-answer"><p>Your batch number is typically printed on the base or side of your product vial along with the expiration date.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question"><span>How long does a manual COA request take?</span><i class="fas fa-plus"></i></button>
+                <div class="faq-answer"><p>Our Australian support team processes manual COA document requests within 24–48 business hours. The files will be emailed directly to your associated email address as a PDF.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question"><span>What does >99% purity mean?</span><i class="fas fa-plus"></i></button>
+                <div class="faq-answer"><p>This means that out of the total measurable mass within the sample, over 99% is comprised exclusively of the target peptide sequence, with the remaining fraction consisting of harmless synthesis byproducts (like water and salts/TFA).</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col brand">
+                <div class="footer-logo-img"><img src="Photos/logo.png" alt="Synexis Peptides" class="footer-logo"></div>
+                <p class="footer-brand-desc">Research-grade peptides. Australian dispatch. Research use only.</p>
+                <p class="footer-support-info">Support: <a href="mailto:support@synexispeptides.com.au">support@synexispeptides.com.au</a></p>
+            </div>
+            <div class="footer-col links">
+                <h4>Shop</h4>
+                <a href="index.html#products">All Peptides</a>
+                <a href="calculator.html">Peptide Calculator</a>
+            </div>
+            <div class="footer-col links">
+                <h4>Support</h4>
+                <a href="index.html#contact">Contact Us</a>
+                <a href="index.html#faq">FAQs</a>
+                <a href="coa.html">Batch Testing</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Synexis Peptides. All rights reserved. Research use only.</p>
+        </div>
+    </footer>
+
+    <!-- Fullscreen Image Modal -->
+    <div class="img-modal" id="imgModal" onclick="this.classList.remove('show')">
+        <div class="img-modal-content" onclick="event.stopPropagation()">
+            <button class="close-modal" onclick="document.getElementById('imgModal').classList.remove('show')">&times;</button>
+            <img src="" alt="COA Fullscreen" class="img-modal-img" id="imgModalSrc">
+        </div>
+    </div>
+
+    <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg">Done!</span></div>
+    
+    <script src="script.js"></script>
+    <script>
+        const coaData = [
+            { name: "Retatrutide 10mg",   purity: ">99% HPLC", image: "Photos/Retatrutide 10mg test.png" },
+            { name: "BPC-157 10mg",       purity: ">99.1% HPLC", image: "Photos/BPC-157 10mg test.png" },
+            { name: "BPC-157 + TB-500",   purity: ">99% HPLC", image: "Photos/BPC%2BTB500%205mg5mg%20test.png" },
+            { name: "CJC-1295 + Ipa",     purity: ">99% HPLC", image: "Photos/CJC%2BIPA%205mg5mg%20test.png" },
+            { name: "GHK-CU 100mg",       purity: ">99% HPLC", image: "Photos/GHK-CU 100mg test.png" },
+            { name: "Klow 80mg",          purity: ">99% HPLC", image: "Photos/Klow 80mg test.png" },
+            { name: "Mots-C 10mg",        purity: ">98% HPLC", image: "Photos/MOTS-C 10mg test.png" },
+            { name: "Semax 10mg",         purity: ">98% HPLC", image: "Photos/Semax 10mg test.png" },
+            { name: "TB-500 10mg",        purity: ">99% HPLC", image: "Photos/TB500 10mg test.png" },
+            { name: "Tesamorelin 10mg",   purity: ">99% HPLC", image: "Photos/Tesamorelin10mg test.png" },
+            { name: "NAD+ 500mg",         purity: ">99% HPLC", image: "Photos/NAD%2B500mg%20test.png" },
+            { name: "Ipamorelin 10mg",    purity: ">99% HPLC", image: "Photos/Ipamorelin 10mg test.png" },
+            { name: "Selank 10mg",        purity: ">99% HPLC", image: "Photos/Selank 10mg test.png" }
+        ];
+
+        const grid = document.getElementById('coaGrid');
+        
+        function renderCOAs(items) {
+            grid.innerHTML = '';
+            if (items.length === 0) {
+                grid.innerHTML = '<p style="color:var(--text-muted); grid-column:1/-1; text-align:center;">No matching certificates found.</p>';
+            }
+            items.forEach(doc => {
+                const el = document.createElement('div');
+                el.className = 'coa-card';
+                el.innerHTML = `
+                    <img src="${doc.image}" alt="${doc.name} COA" class="coa-thumb">
+                    <div class="coa-info">
+                        <div class="coa-name">${doc.name}</div>
+                        <div class="coa-purity"><i class="fas fa-check-circle" style="margin-right:6px"></i>${doc.purity}</div>
+                        <button class="coa-view-btn" onclick="openModal('${doc.image}')">View Document</button>
+                    </div>
+                `;
+                grid.appendChild(el);
+            });
+        }
+
+        function filterCOAs() {
+            const query = document.getElementById('coaSearch').value.toLowerCase();
+            const filtered = coaData.filter(d => d.name.toLowerCase().includes(query));
+            renderCOAs(filtered);
+        }
+
+        function openModal(src) {
+            document.getElementById('imgModalSrc').src = src;
+            document.getElementById('imgModal').classList.add('show');
+        }
+
+        renderCOAs(coaData);
+    </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /checkout.html
+Disallow: /order-confirmation.html
+Disallow: /*?*cart*
+Disallow: /*?*checkout*
+
+Sitemap: https://synexispeptides.com.au/sitemap.xml

@@ -1,0 +1,655 @@
+/* Calculator Specific Styles */
+
+.calculator-section {
+    padding: 80px 5% 120px;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.calc-container {
+    width: 100%;
+    max-width: 1000px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.calc-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.calc-header h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.calc-header p {
+    color: var(--text-muted);
+    font-size: 16px;
+}
+
+.calc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 40px;
+}
+
+.calc-panel {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.calc-panel h3 {
+    font-size: 20px;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 15px;
+}
+
+.calc-panel h3 i {
+    color: var(--primary);
+}
+
+/* Inputs */
+.input-group {
+    margin-bottom: 25px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #e2e8f0;
+}
+
+.input-with-unit {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-unit input {
+    width: 100%;
+    background: #04070e;
+    border: 1px solid var(--border);
+    padding: 15px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 18px;
+    font-family: inherit;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.input-with-unit input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
+}
+
+.input-with-unit .unit {
+    position: absolute;
+    right: 15px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.input-group small {
+    display: block;
+    margin-top: 6px;
+    color: #64748b;
+    font-size: 12px;
+}
+
+.highlight-input input {
+    border-color: rgba(138, 91, 255, 0.5);
+    background: rgba(138, 91, 255, 0.05);
+}
+
+.highlight-input input:focus {
+    border-color: var(--sale);
+    box-shadow: 0 0 15px rgba(138, 91, 255, 0.3);
+}
+
+/* ===========================
+   BLEND TOGGLE
+   =========================== */
+.blend-toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: rgba(0, 210, 255, 0.04);
+    border: 1px solid rgba(0, 210, 255, 0.12);
+    border-radius: 8px;
+}
+
+.blend-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #e2e8f0;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #1e293b;
+    border-radius: 24px;
+    transition: 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    left: 2px;
+    bottom: 2px;
+    background: #94a3b8;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.toggle-switch input:checked+.toggle-slider {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.toggle-switch input:checked+.toggle-slider::before {
+    transform: translateX(20px);
+    background: #fff;
+}
+
+/* ===========================
+   BLEND CONFIG (Dynamic Rows)
+   =========================== */
+.blend-config {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease;
+    margin-bottom: 0;
+}
+
+.blend-config.active {
+    max-height: 800px;
+    opacity: 1;
+    margin-bottom: 20px;
+}
+
+.blend-row {
+    display: grid;
+    grid-template-columns: 20px 1.5fr 1fr 32px;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    animation: slideIn 0.25s ease;
+}
+
+.blend-row.removing {
+    animation: slideOut 0.25s ease forwards;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+}
+
+.blend-color-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.blend-name-input {
+    width: 100%;
+    background: #04070e;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 10px 12px;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.3s;
+}
+
+.blend-name-input::placeholder {
+    color: #475569;
+}
+
+.blend-name-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 8px rgba(0, 210, 255, 0.15);
+}
+
+.blend-weight-group .input-with-unit input {
+    font-size: 14px;
+    padding: 10px 12px;
+}
+
+.remove-peptide-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 71, 87, 0.1);
+    border: 1px solid rgba(255, 71, 87, 0.2);
+    border-radius: 6px;
+    color: #ff4757;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s;
+}
+
+.remove-peptide-btn:hover {
+    background: rgba(255, 71, 87, 0.25);
+    border-color: #ff4757;
+    transform: scale(1.1);
+}
+
+.add-peptide-btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    background: rgba(0, 210, 255, 0.06);
+    border: 1px dashed rgba(0, 210, 255, 0.3);
+    border-radius: 8px;
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.add-peptide-btn:hover {
+    background: rgba(0, 210, 255, 0.12);
+    border-color: var(--primary);
+}
+
+.blend-note {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #64748b;
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+.blend-note i {
+    color: var(--primary);
+    font-size: 12px;
+}
+
+/* ===========================
+   SYRINGE SIZE SELECTOR
+   =========================== */
+.syringe-selector {
+    margin-top: 5px;
+}
+
+.syringe-selector label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #e2e8f0;
+}
+
+.syringe-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+}
+
+.syringe-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 8px;
+    background: #04070e;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.3s;
+    gap: 2px;
+}
+
+.syringe-btn small {
+    font-size: 10px;
+    font-weight: 400;
+    color: #475569;
+}
+
+.syringe-btn:hover {
+    border-color: rgba(0, 210, 255, 0.3);
+    color: #fff;
+}
+
+.syringe-btn.active {
+    border-color: var(--primary);
+    background: rgba(0, 210, 255, 0.08);
+    color: var(--primary);
+    box-shadow: 0 0 12px rgba(0, 210, 255, 0.15);
+}
+
+.syringe-btn.active small {
+    color: rgba(0, 210, 255, 0.6);
+}
+
+/* ===========================
+   OUTPUTS
+   =========================== */
+.outputs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.result-box {
+    background: #04070e;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.result-box.glow {
+    border-color: rgba(0, 210, 255, 0.3);
+    background: linear-gradient(180deg, rgba(0, 210, 255, 0.05) 0%, #04070e 100%);
+}
+
+.result-label {
+    display: block;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+
+.result-value {
+    font-size: 42px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+    font-family: 'Outfit', sans-serif;
+}
+
+.result-value .unit {
+    font-size: 20px;
+    color: var(--primary);
+}
+
+.result-value .unit-sm {
+    font-size: 16px;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.secondary-results {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.result-box.small {
+    padding: 20px;
+}
+
+.result-box.small .result-value {
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+/* Syringe Graphic */
+.syringe-graphic {
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    gap: 6px;
+    flex-direction: column;
+}
+
+.syringe-info {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+}
+
+.syringe-graphic>div:not(.syringe-info) {
+    display: flex;
+    align-items: center;
+}
+
+.syringe-graphic {
+    flex-direction: column;
+}
+
+.syringe-graphic>.syringe-info {
+    margin-bottom: 8px;
+}
+
+.syringe-body {
+    width: 200px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.syringe-body.overflow {
+    border-color: rgba(255, 71, 87, 0.6);
+    animation: pulse-red 1.5s infinite;
+}
+
+@keyframes pulse-red {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 71, 87, 0);
+    }
+
+    50% {
+        box-shadow: 0 0 12px 2px rgba(255, 71, 87, 0.3);
+    }
+}
+
+.syringe-liquid {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), #00a8cc);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.syringe-marks {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 10px;
+    pointer-events: none;
+}
+
+.syringe-needle {
+    width: 30px;
+    height: 4px;
+    background: #777;
+    margin-left: 2px;
+    border-radius: 0 2px 2px 0;
+}
+
+/* Fix syringe layout to be horizontal */
+.syringe-graphic {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.syringe-row {
+    display: flex;
+    align-items: center;
+}
+
+/* Blend Results */
+.blend-results {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 0;
+}
+
+.blend-results.active {
+    max-height: 600px;
+    opacity: 1;
+    margin-top: 20px;
+}
+
+.blend-result-card {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Disclaimer */
+.disclaimer-alert {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    background: rgba(251, 191, 36, 0.1);
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: auto;
+}
+
+.disclaimer-alert i {
+    color: #f59e0b;
+    font-size: 24px;
+}
+
+.disclaimer-alert p {
+    font-size: 12px;
+    color: #cbd5e1;
+    margin: 0;
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width: 800px) {
+    .calc-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .blend-row {
+        grid-template-columns: 20px 1fr 80px 32px;
+    }
+
+    .blend-results {
+        grid-template-columns: 1fr;
+    }
+
+    .syringe-options {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}

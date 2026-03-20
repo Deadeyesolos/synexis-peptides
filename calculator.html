@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Synexis Peptides | Peptide Calculator</title>
+    <meta name="description" content="Synexis Peptides supplies research-grade peptides for Australian customers. Fast dispatch, secure checkout, and clear research-use information.">
+    <link rel="canonical" href="https://synexispeptides.com.au/calculator.html" />
+    <meta property="og:title" content="Synexis Peptides | Peptide Calculator" />
+    <meta property="og:description" content="Synexis Peptides supplies research-grade peptides for Australian customers. Fast dispatch, secure checkout, and clear research-use information." />
+    <meta property="og:url" content="https://synexispeptides.com.au/calculator.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://synexispeptides.com.au/Photos/logo.png" />
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Synexis Peptides",
+      "url": "https://synexispeptides.com.au"
+    }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="calculator.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html#home" class="nav-link">Home</a>
+            <a href="index.html#products" class="nav-link">All Peptides</a>
+            <a href="calculator.html" class="nav-link" style="color: var(--primary);">Calculator</a>
+        </div>
+
+        <div class="logo">
+            <a href="index.html"><img src="Photos/logo.png" alt="Synexis Peptides" class="nav-logo"></a>
+        </div>
+
+        <div class="nav-right">
+            <a href="index.html#faq" class="nav-link">FAQs</a>
+            <a href="index.html#contact" class="nav-link">Contact</a>
+            <div class="nav-icons">
+                <a href="#" class="icon-link cart-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Calculator Section -->
+    <section class="calculator-section">
+        <div class="calc-container">
+            <div class="calc-header">
+                <h2>Peptide <span class="highlight">Reconstitution Calculator</span></h2>
+                <p>Calculate exact dosages derived from your lyophilized peptide mass and bacteriostatic water volume.
+                </p>
+            </div>
+
+            <div class="calc-grid">
+                <!-- Input Panel -->
+                <div class="calc-panel inputs">
+                    <h3><i class="fas fa-sliders-h"></i> Parameters</h3>
+
+                    <div class="input-group">
+                        <label for="peptideWeight">Total Peptide Weight</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="peptideWeight" value="10" min="1" step="0.1">
+                            <span class="unit">mg</span>
+                        </div>
+                        <small>Total mass in the vial</small>
+                    </div>
+
+                    <!-- Blend Toggle -->
+                    <div class="blend-toggle-row">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="blendToggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="blend-label">Blended Vial</span>
+                    </div>
+
+                    <!-- Dynamic Blend Config -->
+                    <div class="blend-config" id="blendConfig">
+                        <div id="peptideList">
+                            <!-- Dynamic peptide rows injected here by JS -->
+                        </div>
+                        <button class="add-peptide-btn" id="addPeptideBtn">
+                            <i class="fas fa-plus"></i> Add Peptide
+                        </button>
+                        <small class="blend-note"><i class="fas fa-info-circle"></i> Weights auto-sum to Total Peptide
+                            Weight</small>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="waterVolume">Bacteriostatic Water Added</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="waterVolume" value="2" min="0.5" step="0.5">
+                            <span class="unit">mL</span>
+                        </div>
+                        <small>Volume of diluent added</small>
+                    </div>
+
+                    <div class="input-group highlight-input">
+                        <label for="targetDose">Desired Target Dose</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="targetDose" value="500" min="10" step="10">
+                            <span class="unit">mcg</span>
+                        </div>
+                        <small>How much peptide you want per draw</small>
+                    </div>
+
+                    <!-- Syringe Size Selector -->
+                    <div class="syringe-selector">
+                        <label>Syringe Size</label>
+                        <div class="syringe-options" id="syringeOptions">
+                            <button class="syringe-btn" data-size="0.3">0.3 mL<small>30 units</small></button>
+                            <button class="syringe-btn" data-size="0.5">0.5 mL<small>50 units</small></button>
+                            <button class="syringe-btn active" data-size="1">1 mL<small>100 units</small></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Output Panel -->
+                <div class="calc-panel outputs">
+                    <h3><i class="fas fa-flask"></i> Results</h3>
+
+                    <div class="result-box glow">
+                        <span class="result-label">Volume to Draw</span>
+                        <div class="result-value">
+                            <span id="resVolume">0.10</span> <span class="unit">mL</span>
+                        </div>
+                        <div class="syringe-graphic">
+                            <div class="syringe-info" id="syringeInfo">U-100 (1mL)</div>
+                            <div class="syringe-body">
+                                <div class="syringe-liquid" id="syringeLiquid" style="width: 10%;"></div>
+                                <div class="syringe-marks">
+                                    <span>|</span><span>|</span><span>|</span><span>|</span><span>|</span>
+                                </div>
+                            </div>
+                            <div class="syringe-needle"></div>
+                        </div>
+                    </div>
+
+                    <div class="secondary-results">
+                        <div class="result-box small">
+                            <span class="result-label">Syringe Ticks</span>
+                            <div class="result-value" id="resTicks">10</div>
+                            <small id="ticksLabel">Units on a 1mL syringe</small>
+                        </div>
+                        <div class="result-box small">
+                            <span class="result-label">Concentration</span>
+                            <div class="result-value">
+                                <span id="resConc">5.0</span> <span class="unit-sm">mg/mL</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Blend Results (injected by JS) -->
+                    <div class="blend-results" id="blendResults"></div>
+
+                    <div class="disclaimer-alert">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p><strong>Research purposes only.</strong> Double check all math before proceeding with
+                            laboratory protocols.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col brand">
+                <div class="footer-logo-img">
+                    <img src="Photos/logo.png" alt="Synexis Peptides" class="footer-logo">
+                </div>
+                <p class="footer-brand-desc">Supplying research-grade peptides to Australian customers with transparent batch testing, fast dispatch, and a secure checkout experience.</p>
+                <p class="footer-support-info">
+                    Support: <a href="mailto:support@synexispeptides.com.au">support@synexispeptides.com.au</a><br>
+                    Response: 24–48 business hours
+                </p>
+                <div class="socials">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Twitter / X"><i class="fab fa-x-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-col links">
+                <h4>Shop</h4>
+                <a href="index.html#products">All Peptides</a>
+                <a href="index.html#best-sellers">Best Sellers</a>
+                <a href="calculator.html">Peptide Calculator</a>
+            </div>
+            <div class="footer-col links">
+                <h4>Support</h4>
+                <a href="index.html#contact">Contact Us</a>
+                <a href="index.html#faq">FAQs</a>
+                <a href="coa.html">Batch Testing (COA)</a>
+                <a href="#">Shipping Policy</a>
+                <a href="#">Refund Policy</a>
+            </div>
+            <div class="footer-col secure">
+                <h4>Secure Payments</h4>
+                <div class="payment-icons">
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-amex"></i>
+                    <i class="fab fa-bitcoin"></i>
+                </div>
+                <p class="footer-disclaimer-note">All products are sold for research purposes only. Not for human use.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Synexis Peptides. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Disclaimer</a>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="calculator.js"></script>
+</body>
+
+</html>
