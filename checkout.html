@@ -389,12 +389,16 @@
                     </div>
                 </div>
 
-                <div style="margin-top: 32px; padding: 16px; background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.15); border-radius: var(--radius-sm);">
-                    <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer;">
-                        <input type="checkbox" required checked style="margin-top: 2px; accent-color: var(--primary);">
-                        <span style="font-size: 13px; color: var(--text-light); line-height: 1.5;"><strong>Research Use Confirmation:</strong> By completing this purchase you confirm the products are intended for laboratory research purposes only and will not be used for human consumption.</span>
+                <div style="margin-top: 32px; padding: 20px; background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.15); border-radius: var(--radius-sm);">
+                    <label style="display: flex; align-items: flex-start; gap: 14px; cursor: pointer;">
+                        <input type="checkbox" id="researchConfirmation" required style="margin-top: 4px; width: 18px; height: 18px; accent-color: var(--primary);">
+                        <span style="font-size: 13px; color: var(--text-light); line-height: 1.6;">
+                            <strong style="color: var(--text-white); display: block; margin-bottom: 2px;">Research Use Confirmation</strong>
+                            I confirm these products are strictly for laboratory research only and not for human consumption or medical use.
+                        </span>
                     </label>
                 </div>
+
                 <button type="submit" class="pay-btn"><i class="fas fa-lock" style="margin-right:8px; font-size:14px;"></i> Pay Now</button>
             </form>
         </div>
@@ -422,29 +426,45 @@
                 </div>
             </div>
 
-            <div class="trust-badges">
-                <div class="trust-badge">
-                    <i class="fas fa-shield-check"></i>
-                    <div class="trust-badge-content">
-                        <h4>Secure Checkout</h4>
-                        <p>Your details are protected using enterprise-grade 256-bit encryption.</p>
+            <div class="trust-badges" style="margin-top: 32px; display: grid; gap: 20px;">
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <div style="width: 42px; height: 42px; border-radius: 10px; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2); display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-lock" style="color: var(--primary); font-size: 18px;"></i>
+                    </div>
+                    <div>
+                        <div style="color: var(--text-white); font-size: 14px; font-weight: 600;">Secure Checkout</div>
+                        <div style="color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">256-bit SSL Encrypted</div>
                     </div>
                 </div>
-                <div class="trust-badge">
-                    <i class="fas fa-box"></i>
-                    <div class="trust-badge-content">
-                        <h4>Discreet Packaging</h4>
-                        <p>Orders are dispatched in plain satchels with no external brand labelling.</p>
+                
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <div style="width: 42px; height: 42px; border-radius: 10px; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.2); display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-box" style="color: var(--success); font-size: 18px;"></i>
+                    </div>
+                    <div>
+                        <div style="color: var(--text-white); font-size: 14px; font-weight: 600;">Discreet Packaging</div>
+                        <div style="color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Plain Unbranded Shipping</div>
                     </div>
                 </div>
-                <div class="trust-badge">
-                    <i class="fas fa-clock"></i>
-                    <div class="trust-badge-content">
-                        <h4>Fast Dispatch</h4>
-                        <p>Express orders placed before 1PM AEST are dispatched the same business day.</p>
+
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <div style="width: 42px; height: 42px; border-radius: 10px; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2); display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-truck-fast" style="color: var(--primary); font-size: 18px;"></i>
+                    </div>
+                    <div>
+                        <div style="color: var(--text-white); font-size: 14px; font-weight: 600;">Fast Dispatch</div>
+                        <div style="color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Australia Post Express</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 12px; padding: 16px; background: rgba(255,255,255,0.03); border-radius: var(--radius-sm); border: 1px solid var(--border); display: flex; align-items: center; gap: 12px;">
+                    <i class="fas fa-envelope" style="color: var(--text-muted); font-size: 14px;"></i>
+                    <div style="font-size: 12px; color: var(--text-muted);">
+                        Support: <span style="color: var(--text-white); font-family: monospace;">support@synexispeptides.com.au</span>
                     </div>
                 </div>
             </div>
+
 
         </div>
     </div>
@@ -600,7 +620,17 @@
                 const originalBtnText = payBtn.innerHTML;
                 payBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
 
+                // Check research confirmation
+                const researchConfirmed = document.getElementById('researchConfirmation').checked;
+                if (!researchConfirmed) {
+                    alert('Please confirm the research use requirement before proceeding.');
+                    payBtn.disabled = false;
+                    payBtn.innerHTML = originalBtnText;
+                    return;
+                }
+
                 try {
+
                     const email = document.querySelector('input[type="email"]').value;
                     let cart = JSON.parse(localStorage.getItem('synexis_cart_data')) || [];
                     

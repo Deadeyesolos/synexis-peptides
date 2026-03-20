@@ -48,9 +48,19 @@ module.exports = async (req, res) => {
       line_items,
       mode: 'payment',
       customer_email: email,
+      billing_address_collection: 'required',
+      shipping_address_collection: {
+        allowed_countries: ['AU'], 
+      },
+      allow_promotion_codes: true,
+      metadata: {
+        order_type: 'research_use_only',
+        cart_summary: items.map(i => `${i.qty}x ${i.name}`).join(', ').substring(0, 500)
+      },
       success_url: `${origin}/order-confirmation.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/payment-failed.html`,
+      cancel_url: `${origin}/payment-cancelled.html`,
     });
+
 
     res.status(200).json({ id: session.id, url: session.url });
   } catch (err) {
