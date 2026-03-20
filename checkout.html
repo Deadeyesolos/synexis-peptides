@@ -673,33 +673,48 @@
         }
 
 
-        // ── Stripe Checkout Logic ──────────────────────────────
+        // ── Manual Bank Deposit Logic ────────────────────────
         const checkoutForm = document.getElementById('checkoutForm');
         const payBtn = document.querySelector('.pay-btn');
+        const billingRadios = document.querySelectorAll('input[name="billing_choice"]');
+        const billingFields = document.getElementById('billingAddressFields');
+
+        // Toggle Billing Address Fields
+        billingRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                // Remove active class from all options
+                document.querySelectorAll('.billing-opt').forEach(opt => opt.classList.remove('active'));
+                // Add active class to parent label
+                e.target.closest('.billing-opt').classList.add('active');
+                
+                if (e.target.value === 'different') {
+                    billingFields.style.display = 'block';
+                    // Scroll to fields
+                    billingFields.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                } else {
+                    billingFields.style.display = 'none';
+                }
+            });
+        });
 
         if (checkoutForm) {
             checkoutForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
-                // Disable button and show loading state
-                payBtn.disabled = true;
-                const originalBtnText = payBtn.innerHTML;
-                payBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-
                 // Check research confirmation
                 const researchConfirmed = document.getElementById('researchConfirmation').checked;
                 if (!researchConfirmed) {
                     alert('Please confirm the research use requirement before proceeding.');
-                    payBtn.disabled = false;
-                    payBtn.innerHTML = originalBtnText;
                     return;
                 }
 
-                try {
+                // Disable button and show loading state
+                payBtn.disabled = true;
+                const originalBtnText = payBtn.innerHTML;
+                payBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Finalizing Order...';
 
-                    const email = document.querySelector('input[type="email"]').value;
+                try {
                     let cart = JSON.parse(localStorage.getItem('synexis_cart_data')) || [];
-                    
                     if (cart.length === 0) {
                         alert('Your cart is empty.');
                         payBtn.disabled = false;
@@ -707,42 +722,34 @@
                         return;
                     }
 
-                    // Calculate subtotal to get correct shipping
-                    let subtotal = 0;
-                    cart.forEach(item => subtotal += (item.price * item.qty));
-                    let shippingAmount = subtotal >= 200 ? 0 : 15.00;
+                    // For this manual flow, we record the order details
+                    const orderId = 'SYN-' + Math.floor(100000 + Math.random() * 900000);
+                    const orderData = {
+                        orderId: orderId,
+                        date: new Date().toISOString(),
+                        email: document.querySelector('input[type="email"]').value,
+                        items: cart,
+                        paymentMethod: 'Bank Deposit',
+                        status: 'Pending Payment Verification'
+                    };
 
-                    // Call our Vercel Serverless Function
-                    const response = await fetch('/api/checkout', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            items: cart,
-                            email: email,
-                            shipping: shippingAmount
-                        }),
-                    });
+                    // Store in recent orders (demo purposes)
+                    localStorage.setItem('synexis_last_order', JSON.stringify(orderData));
 
-                    const data = await response.json();
+                    // Simulation lag for "Premium Experience"
+                    setTimeout(() => {
+                        window.location.href = `order-confirmation.html?orderId=${orderId}&manual=true`;
+                    }, 1200);
 
-                    if (data.url) {
-                        // Redirect to Stripe Checkout
-                        window.location.href = data.url;
-                    } else if (data.error) {
-                        throw new Error(data.error);
-                    } else {
-                        throw new Error('Something went wrong. Please try again.');
-                    }
                 } catch (error) {
                     console.error('Checkout Error:', error);
-                    alert('Checkout failed: ' + error.message);
+                    alert('An error occurred. Please try again.');
                     payBtn.disabled = false;
                     payBtn.innerHTML = originalBtnText;
                 }
             });
         }
+
     </script>
 
 
