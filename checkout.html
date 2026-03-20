@@ -165,6 +165,22 @@
             background: rgba(59, 130, 246, 0.08);
             box-shadow: 0 0 0 1px var(--primary);
         }
+
+        /* Payment Options */
+        .payment-opt {
+            border: 1px solid var(--border-card);
+            background: rgba(255,255,255,0.02);
+            transition: var(--transition);
+        }
+        .payment-opt:hover {
+            border-color: var(--primary-light);
+            background: rgba(255,255,255,0.04);
+        }
+        .payment-opt.active {
+            border-color: var(--primary);
+            background: rgba(59, 130, 246, 0.08);
+            box-shadow: 0 0 0 1px var(--primary);
+        }
         .radio-box.active {
             border-color: var(--primary);
             background: var(--primary-dim);
@@ -392,44 +408,67 @@
                     </label>
                 </div>
 
-                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden;">
-                        <div style="padding: 16px; background: rgba(59,130,246,0.1); border-bottom: 1px solid var(--border); color: var(--text-white); font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 10px;">
-                            <div style="width: 24px; height: 24px; border-radius: 6px; background: var(--primary); display: flex; align-items: center; justify-content: center;">
-                                <i class="fas fa-university" style="font-size: 12px; color: var(--text-white);"></i>
+                <div class="checkout-section">
+                    <h2><i class="fas fa-credit-card"></i> Payment Method</h2>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">All transactions are secure and encrypted. Select your preferred method below.</p>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+                        <!-- Option 1: Stripe -->
+                        <label style="display: flex; align-items: center; justify-content: space-between; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; transition: 0.2s;" class="payment-opt active">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <input type="radio" name="payment_method" value="stripe" checked style="accent-color: var(--primary);">
+                                <span style="font-size: 15px; color: var(--text-white); font-weight: 500;">Credit Card / Apple Pay / Google Pay</span>
                             </div>
-                            Bank Deposit
+                            <div style="display: flex; gap: 8px; opacity: 0.7;">
+                                <i class="fab fa-cc-visa" style="font-size: 18px;"></i>
+                                <i class="fab fa-cc-mastercard" style="font-size: 18px;"></i>
+                                <i class="fab fa-apple-pay" style="font-size: 20px;"></i>
+                            </div>
+                        </label>
+
+                        <!-- Option 2: Bank Deposit -->
+                        <label style="display: flex; align-items: center; justify-content: space-between; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; transition: 0.2s;" class="payment-opt">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <input type="radio" name="payment_method" value="bank" style="accent-color: var(--primary);">
+                                <span style="font-size: 15px; color: var(--text-white); font-weight: 500;">Bank Deposit (Manual Transfer)</span>
+                            </div>
+                            <i class="fas fa-university" style="font-size: 16px; color: var(--text-muted);"></i>
+                        </label>
+                    </div>
+
+                    <!-- Stripe Info Block -->
+                    <div id="stripeInfo" style="display: block; padding: 24px; border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; background: rgba(59,130,246,0.03); margin-top: 16px;">
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 12px; color: var(--text-white); font-weight: 600;">
+                            <i class="fab fa-stripe" style="font-size: 32px; color: #635bff;"></i>
+                            <span style="font-size: 14px; letter-spacing: 0.5px; text-transform: uppercase;">Secure Payment Gateway</span>
+                        </div>
+                        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; max-width: 320px; margin: 0 auto;">
+                            Finalize your purchase securely via Stripe's encrypted environment. Fast, secure, and reliable.
+                        </p>
+                    </div>
+
+                    <!-- Bank Info Block -->
+                    <div id="bankInfo" style="display: none; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; margin-top: 16px;">
+                        <div style="padding: 16px; background: rgba(59,130,246,0.1); border-bottom: 1px solid var(--border); color: var(--text-white); font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-info-circle" style="color: var(--primary);"></i>
+                            Transfer Instructions
                         </div>
                         <div style="padding: 24px;">
-                            <div style="margin-bottom: 24px;">
-                                <div style="color: var(--primary); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Step 1 — Transfer funds for secure payment:</div>
-                                <div style="background: rgba(0,0,0,0.2); padding: 16px; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.05); font-family: monospace; font-size: 13px;">
-                                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                        <span style="color: var(--text-muted);">Account Name:</span>
-                                        <span style="color: var(--text-white);">Synexis Peptides</span>
-                                    </div>
-                                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                        <span style="color: var(--text-muted);">BSB:</span>
-                                        <span style="color: var(--text-white);">067-873</span>
-                                    </div>
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <span style="color: var(--text-muted);">Account Number:</span>
-                                        <span style="color: var(--text-white);">1970 8635</span>
-                                    </div>
+                            <div style="margin-bottom: 20px;">
+                                <div style="color: var(--primary); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Account Details:</div>
+                                <div style="background: rgba(0,0,0,0.2); padding: 14px; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.05); font-family: monospace; font-size: 13px;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 6px;"><span style="color: var(--text-muted);">Name:</span><span style="color: var(--text-white);">Synexis Peptides</span></div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 6px;"><span style="color: var(--text-muted);">BSB:</span><span style="color: var(--text-white);">067-873</span></div>
+                                    <div style="display: flex; justify-content: space-between;"><span style="color: var(--text-muted);">Acc:</span><span style="color: var(--text-white);">1970 8635</span></div>
                                 </div>
                             </div>
-                            
-                            <div>
-                                <div style="color: var(--primary); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Step 2 — <i class="fas fa-triangle-exclamation"></i> Important:</div>
-                                <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">
-                                    Orders will be manually processed once payment is confirmed. Please include your <strong style="color: var(--text-white);">FULL NAME</strong> as the payment reference to avoid any dispatch delays.
-                                </p>
-                                <p style="font-size: 12px; color: var(--text-muted); font-style: italic; margin-top: 12px; opacity: 0.7;">
-                                    * Orders without received payment within 48 hours will be cancelled automatically.
-                                </p>
-                            </div>
+                            <p style="font-size: 12px; color: var(--text-muted); line-height: 1.5; margin: 0;">
+                                <i class="fas fa-triangle-exclamation" style="color: #f59e0b; margin-right: 5px;"></i> Use your <strong style="color: var(--text-white);">FULL NAME</strong> as the reference. Orders are processed upon payment confirmation.
+                            </p>
                         </div>
                     </div>
                 </div>
+
 
                 <div class="checkout-section">
                     <h2><i class="fas fa-map-location-dot"></i> Billing Address</h2>
@@ -480,7 +519,8 @@
                     </label>
                 </div>
 
-                <button type="submit" class="pay-btn"><i class="fas fa-check-circle" style="margin-right:8px; font-size:14px;"></i> I've Paid, Complete My Order!</button>
+                <button type="submit" class="pay-btn" id="mainSubmitBtn"><i class="fas fa-lock" style="margin-right:8px; font-size:14px;"></i> Pay Now</button>
+
 
             </form>
         </div>
@@ -689,23 +729,42 @@
         }
 
 
-        // ── Manual Bank Deposit Logic ────────────────────────
+        // ── Payment Method & Order Logic ────────────────────
         const checkoutForm = document.getElementById('checkoutForm');
-        const payBtn = document.querySelector('.pay-btn');
+        const payBtn = document.getElementById('mainSubmitBtn');
         const billingRadios = document.querySelectorAll('input[name="billing_choice"]');
         const billingFields = document.getElementById('billingAddressFields');
+        
+        const paymentRadios = document.querySelectorAll('input[name="payment_method"]');
+        const stripeInfo = document.getElementById('stripeInfo');
+        const bankInfo = document.getElementById('bankInfo');
+
+        // Toggle Payment Method
+        paymentRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                document.querySelectorAll('.payment-opt').forEach(opt => opt.classList.remove('active'));
+                e.target.closest('.payment-opt').classList.add('active');
+                
+                if (e.target.value === 'stripe') {
+                    stripeInfo.style.display = 'block';
+                    bankInfo.style.display = 'none';
+                    payBtn.innerHTML = '<i class="fas fa-lock" style="margin-right:8px; font-size:14px;"></i> Pay Now';
+                } else {
+                    stripeInfo.style.display = 'none';
+                    bankInfo.style.display = 'block';
+                    payBtn.innerHTML = '<i class="fas fa-check-circle" style="margin-right:8px; font-size:14px;"></i> I\'ve Paid, Complete My Order!';
+                }
+            });
+        });
 
         // Toggle Billing Address Fields
         billingRadios.forEach(radio => {
             radio.addEventListener('change', (e) => {
-                // Remove active class from all options
                 document.querySelectorAll('.billing-opt').forEach(opt => opt.classList.remove('active'));
-                // Add active class to parent label
                 e.target.closest('.billing-opt').classList.add('active');
                 
                 if (e.target.value === 'different') {
                     billingFields.style.display = 'block';
-                    // Scroll to fields
                     billingFields.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 } else {
                     billingFields.style.display = 'none';
@@ -724,47 +783,71 @@
                     return;
                 }
 
+                const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
+                const email = document.querySelector('input[type="email"]').value;
+                let cart = JSON.parse(localStorage.getItem('synexis_cart_data')) || [];
+                
+                if (cart.length === 0) {
+                    alert('Your cart is empty.');
+                    return;
+                }
+
                 // Disable button and show loading state
                 payBtn.disabled = true;
                 const originalBtnText = payBtn.innerHTML;
-                payBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Finalizing Order...';
+                payBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
 
                 try {
-                    let cart = JSON.parse(localStorage.getItem('synexis_cart_data')) || [];
-                    if (cart.length === 0) {
-                        alert('Your cart is empty.');
-                        payBtn.disabled = false;
-                        payBtn.innerHTML = originalBtnText;
-                        return;
+                    if (paymentMethod === 'stripe') {
+                        // Restore Stripe API Flow
+                        let subtotal = 0;
+                        cart.forEach(item => subtotal += (item.price * item.qty));
+                        let shippingAmount = subtotal >= 200 ? 0 : 15.00;
+
+                        const response = await fetch('/api/checkout', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                items: cart,
+                                email: email,
+                                shipping: shippingAmount
+                            }),
+                        });
+
+                        const data = await response.json();
+                        if (data.url) {
+                            window.location.href = data.url;
+                        } else {
+                            throw new Error(data.error || 'Stripe initialization failed.');
+                        }
+
+                    } else {
+                        // Manual Bank Deposit Flow
+                        const orderId = 'SYN-' + Math.floor(100000 + Math.random() * 900000);
+                        const orderData = {
+                            orderId: orderId,
+                            date: new Date().toISOString(),
+                            email: email,
+                            items: cart,
+                            paymentMethod: 'Bank Deposit',
+                            status: 'Pending Payment Verification'
+                        };
+
+                        localStorage.setItem('synexis_last_order', JSON.stringify(orderData));
+                        setTimeout(() => {
+                            window.location.href = `order-confirmation.html?orderId=${orderId}&manual=true`;
+                        }, 1200);
                     }
-
-                    // For this manual flow, we record the order details
-                    const orderId = 'SYN-' + Math.floor(100000 + Math.random() * 900000);
-                    const orderData = {
-                        orderId: orderId,
-                        date: new Date().toISOString(),
-                        email: document.querySelector('input[type="email"]').value,
-                        items: cart,
-                        paymentMethod: 'Bank Deposit',
-                        status: 'Pending Payment Verification'
-                    };
-
-                    // Store in recent orders (demo purposes)
-                    localStorage.setItem('synexis_last_order', JSON.stringify(orderData));
-
-                    // Simulation lag for "Premium Experience"
-                    setTimeout(() => {
-                        window.location.href = `order-confirmation.html?orderId=${orderId}&manual=true`;
-                    }, 1200);
 
                 } catch (error) {
                     console.error('Checkout Error:', error);
-                    alert('An error occurred. Please try again.');
+                    alert('Checkout failed: ' + error.message);
                     payBtn.disabled = false;
                     payBtn.innerHTML = originalBtnText;
                 }
             });
         }
+
 
     </script>
 
