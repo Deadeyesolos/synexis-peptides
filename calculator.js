@@ -17,6 +17,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const syringeInfo = document.getElementById('syringeInfo');
     const ticksLabel = document.getElementById('ticksLabel');
 
+    // === Duration Elements ===
+    const durationToggle = document.getElementById('durationToggle');
+    const durationConfig = document.getElementById('durationConfig');
+    const durationSlider = document.getElementById('durationSlider');
+    const durationDisplayValue = document.getElementById('durationDisplayValue');
+    const durationDisplayUnit = document.getElementById('durationDisplayUnit');
+    const durationUnitSelector = document.getElementById('durationUnitSelector');
+    const durationMinLabel = document.getElementById('durationMinLabel');
+    const durationMaxLabel = document.getElementById('durationMaxLabel');
+    const durationResultsPanel = document.getElementById('durationResults');
+
+    // Duration output elements
+    const resTotalDoses = document.getElementById('resTotalDoses');
+    const resDoseFrequency = document.getElementById('resDoseFrequency');
+    const resDurationTarget = document.getElementById('resDurationTarget');
+    const resRequiredDose = document.getElementById('resRequiredDose');
+    const resDurationNote = document.getElementById('resDurationNote');
+    const durationProgressFill = document.getElementById('durationProgressFill');
+    const durationEndLabel = document.getElementById('durationEndLabel');
+
     // === Outputs ===
     const rVolume = document.getElementById('resVolume');
     const rTicks = document.getElementById('resTicks');
@@ -26,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // === State ===
     let peptideCounter = 0;
     let syringeSize = 1; // mL (1, 0.5, or 0.3)
+    let durationUnit = 'days'; // 'days' or 'weeks'
 
     // Color palette for peptide entries
     const peptideColors = [
@@ -68,6 +89,58 @@ document.addEventListener('DOMContentLoaded', () => {
     addPeptideBtn.addEventListener('click', () => {
         addPeptideRow('', '');
     });
+
+    // === Duration Toggle ===
+    durationToggle.addEventListener('change', () => {
+        const isActive = durationToggle.checked;
+        durationConfig.classList.toggle('active', isActive);
+        durationResultsPanel.classList.toggle('active', isActive);
+        if (isActive) calculate();
+    });
+
+    // === Duration Unit Selector ===
+    durationUnitSelector.addEventListener('click', (e) => {
+        const btn = e.target.closest('.duration-unit-btn');
+        if (!btn) return;
+
+        durationUnitSelector.querySelectorAll('.duration-unit-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        durationUnit = btn.dataset.unit;
+
+        // Update slider range based on unit
+        if (durationUnit === 'days') {
+            durationSlider.min = 5;
+            durationSlider.max = 365;
+            // Convert current weeks value to approximate days
+            const currentWeeks = parseInt(durationSlider.value);
+            durationSlider.value = Math.min(365, Math.max(5, currentWeeks * 7));
+            durationMinLabel.textContent = '5 days';
+            durationMaxLabel.textContent = '365 days';
+        } else {
+            durationSlider.min = 1;
+            durationSlider.max = 52;
+            // Convert current days value to approximate weeks
+            const currentDays = parseInt(durationSlider.value);
+            durationSlider.value = Math.min(52, Math.max(1, Math.round(currentDays / 7)));
+            durationMinLabel.textContent = '1 week';
+            durationMaxLabel.textContent = '52 weeks';
+        }
+
+        updateDurationDisplay();
+        calculate();
+    });
+
+    // === Duration Slider ===
+    durationSlider.addEventListener('input', () => {
+        updateDurationDisplay();
+        calculate();
+    });
+
+    function updateDurationDisplay() {
+        const val = parseInt(durationSlider.value);
+        durationDisplayValue.textContent = val;
+        durationDisplayUnit.textContent = durationUnit;
+    }
 
     // === Add a Peptide Row ===
     function addPeptideRow(name = '', weight = '') {
@@ -160,6 +233,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return 'U-100 (1mL)';
     }
 
+    // === Get Duration in Days ===
+    function getDurationDays() {
+        const val = parseInt(durationSlider.value) || 30;
+        if (durationUnit === 'weeks') {
+            return val * 7;
+        }
+        return val;
+    }
+
     // === Main Calculation ===
     function calculate() {
         const weightMg = parseFloat(iWeight.value) || 0;
@@ -172,6 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rConc.textContent = '0.0';
             syringeLiquid.style.width = '0%';
             clearBlendResults();
+            clearDurationResults();
             return;
         }
 
@@ -216,6 +299,13 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             clearBlendResults();
         }
+
+        // Duration results
+        if (durationToggle.checked) {
+            updateDurationResults(weightMg, targetMcg);
+        } else {
+            clearDurationResults();
+        }
     }
 
     // === Update Blend Results ===
@@ -255,6 +345,67 @@ document.addEventListener('DOMContentLoaded', () => {
         blendResults.innerHTML = '';
     }
 
+    // === Update Duration Results ===
+    function updateDurationResults(weightMg, targetMcg) {
+        const totalDays = getDurationDays();
+        const weightMcg = weightMg * 1000; // Convert mg to mcg
+
+        // Total doses in the vial at current target dose
+        const totalDoses = weightMcg / targetMcg;
+
+        // How often you'd need to dose (days between doses) to make it last
+        const doseFrequency = totalDays / totalDoses;
+
+        // Required dose per day to make vial last (assuming daily dosing)
+        const requiredDailyDose = weightMcg / totalDays;
+
+        // Display value for the slider's unit
+        const sliderVal = parseInt(durationSlider.value);
+        const unitLabel = durationUnit === 'weeks'
+            ? (sliderVal === 1 ? '1 week' : `${sliderVal} weeks`)
+            : (sliderVal === 1 ? '1 day' : `${sliderVal} days`);
+
+        // Update outputs
+        resTotalDoses.textContent = totalDoses < 1 ? totalDoses.toFixed(1) : Math.floor(totalDoses);
+        
+        // Dose frequency formatting
+        if (doseFrequency >= 1) {
+            resDoseFrequency.textContent = doseFrequency.toFixed(1);
+        } else {
+            // Less than 1 day between doses = multiple doses per day
+            const dosesPerDay = 1 / doseFrequency;
+            resDoseFrequency.textContent = (doseFrequency * 24).toFixed(0) + ' hrs';
+        }
+
+        resDurationTarget.textContent = unitLabel;
+        resRequiredDose.textContent = Math.round(requiredDailyDose);
+
+        // Build the note text
+        const roundedDose = Math.round(requiredDailyDose);
+        if (doseFrequency >= 1 && doseFrequency <= 1.05) {
+            resDurationNote.textContent = `Inject ${roundedDose} mcg once daily to make this vial last ${unitLabel}`;
+        } else if (doseFrequency > 1.05) {
+            const freqDays = doseFrequency.toFixed(1);
+            resDurationNote.textContent = `Inject ${Math.round(targetMcg)} mcg every ${freqDays} days — vial lasts ${unitLabel} at current dose`;
+        } else {
+            resDurationNote.textContent = `Requires ${roundedDose} mcg daily to stretch vial across ${unitLabel}`;
+        }
+
+        // Progress bar: show how much of the max range this represents
+        const maxDays = durationUnit === 'weeks' ? 52 * 7 : 365;
+        const progressPercent = Math.min((totalDays / maxDays) * 100, 100);
+        durationProgressFill.style.width = `${progressPercent}%`;
+        durationEndLabel.textContent = durationUnit === 'weeks'
+            ? `Week ${sliderVal}`
+            : `Day ${sliderVal}`;
+
+        durationResultsPanel.classList.add('active');
+    }
+
+    function clearDurationResults() {
+        durationResultsPanel.classList.remove('active');
+    }
+
     // === Attach Core Listeners ===
     [iWeight, iWater, iTarget].forEach(input => {
         input.addEventListener('input', calculate);
@@ -263,3 +414,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // Run once on load
     calculate();
 });
+

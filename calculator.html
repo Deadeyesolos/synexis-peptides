@@ -126,6 +126,38 @@
                             <button class="syringe-btn active" data-size="1">1 mL<small>100 units</small></button>
                         </div>
                     </div>
+
+                    <!-- Duration Planner Toggle -->
+                    <div class="duration-toggle-row">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="durationToggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="duration-label"><i class="fas fa-clock"></i> Duration Planner</span>
+                    </div>
+
+                    <!-- Duration Config -->
+                    <div class="duration-config" id="durationConfig">
+                        <div class="input-group">
+                            <label for="durationValue">Make Vial Last</label>
+                            <div class="duration-input-row">
+                                <input type="range" id="durationSlider" min="5" max="365" value="30" class="duration-slider">
+                                <div class="duration-display">
+                                    <span id="durationDisplayValue">30</span>
+                                    <span id="durationDisplayUnit">days</span>
+                                </div>
+                            </div>
+                            <div class="duration-unit-selector" id="durationUnitSelector">
+                                <button class="duration-unit-btn active" data-unit="days">Days</button>
+                                <button class="duration-unit-btn" data-unit="weeks">Weeks</button>
+                            </div>
+                            <div class="duration-range-labels">
+                                <span id="durationMinLabel">5 days</span>
+                                <span id="durationMaxLabel">365 days</span>
+                            </div>
+                            <small><i class="fas fa-info-circle"></i> Adjusts dosage to fit your target timeline</small>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Output Panel -->
@@ -165,6 +197,35 @@
 
                     <!-- Dynamic Blend Results (injected by JS) -->
                     <div class="blend-results" id="blendResults"></div>
+
+                    <!-- Duration Results -->
+                    <div class="duration-results" id="durationResults">
+                        <h4 class="duration-results-title"><i class="fas fa-calendar-alt"></i> Duration Plan</h4>
+                        <div class="duration-results-grid">
+                            <div class="result-box small duration-result-card">
+                                <span class="result-label">Total Doses in Vial</span>
+                                <div class="result-value" id="resTotalDoses">20</div>
+                            </div>
+                            <div class="result-box small duration-result-card">
+                                <span class="result-label">Dose Every</span>
+                                <div class="result-value"><span id="resDoseFrequency">1.5</span> <span class="unit-sm">days</span></div>
+                            </div>
+                            <div class="result-box small duration-result-card span-full">
+                                <span class="result-label">Required Dose (to last <span id="resDurationTarget">30 days</span>)</span>
+                                <div class="result-value duration-highlight"><span id="resRequiredDose">333</span> <span class="unit-sm">mcg</span></div>
+                                <small class="duration-note" id="resDurationNote">Inject 333 mcg every day to make this vial last 30 days</small>
+                            </div>
+                        </div>
+                        <div class="duration-progress-bar">
+                            <div class="duration-progress-track">
+                                <div class="duration-progress-fill" id="durationProgressFill" style="width: 50%;"></div>
+                            </div>
+                            <div class="duration-progress-labels">
+                                <span>Day 1</span>
+                                <span id="durationEndLabel">Day 30</span>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="disclaimer-alert">
                         <i class="fas fa-exclamation-triangle"></i>
