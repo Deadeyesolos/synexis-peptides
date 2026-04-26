@@ -280,6 +280,30 @@
         .pay-btn:hover {
             background: var(--primary-light);
             transform: translateY(-2px);
+            box-shadow: 0 4px 20px var(--primary-glow);
+        }
+
+        .stripe-pay-btn {
+            display: block;
+            width: 100%;
+            padding: 24px;
+            border: 1px solid var(--primary);
+            border-radius: var(--radius-sm);
+            text-align: center;
+            background: rgba(59,130,246,0.06);
+            margin-top: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+        .stripe-pay-btn:hover {
+            background: rgba(59,130,246,0.12);
+            border-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(59,130,246,0.15);
+        }
+        .stripe-pay-btn:active {
+            transform: translateY(0);
         }
 
         .trust-badges {
@@ -436,16 +460,19 @@
                         </label>
                     </div>
 
-                    <!-- Stripe Info Block -->
-                    <div id="stripeInfo" style="display: block; padding: 24px; border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; background: rgba(59,130,246,0.03); margin-top: 16px;">
-                        <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 12px; color: var(--text-white); font-weight: 600;">
+                    <!-- Stripe Info Block (Clickable Button) -->
+                    <button type="submit" id="stripePayBtn" class="stripe-pay-btn">
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 8px; color: var(--text-white); font-weight: 700;">
                             <i class="fab fa-stripe" style="font-size: 32px; color: #635bff;"></i>
-                            <span style="font-size: 14px; letter-spacing: 0.5px; text-transform: uppercase;">Secure Payment Gateway</span>
+                            <span style="font-size: 15px; letter-spacing: 0.5px; text-transform: uppercase;">Pay Now via Secure Gateway</span>
                         </div>
-                        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; max-width: 320px; margin: 0 auto;">
-                            Finalize your purchase securely via Stripe's encrypted environment. Fast, secure, and reliable.
+                        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; max-width: 340px; margin: 0 auto;">
+                            Fast, secure, and encrypted checkout. Finalize your research purchase via Stripe.
                         </p>
-                    </div>
+                        <div style="margin-top: 12px; font-size: 12px; color: var(--primary-light); font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">
+                            <i class="fas fa-lock" style="margin-right: 4px;"></i> Click to Pay with Card
+                        </div>
+                    </button>
 
                     <!-- Bank Info Block -->
                     <div id="bankInfo" style="display: none; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; margin-top: 16px;">
@@ -736,26 +763,34 @@
         const billingFields = document.getElementById('billingAddressFields');
         
         const paymentRadios = document.querySelectorAll('input[name="payment_method"]');
-        const stripeInfo = document.getElementById('stripeInfo');
+        const stripePayBtn = document.getElementById('stripePayBtn');
         const bankInfo = document.getElementById('bankInfo');
 
         // Toggle Payment Method
+        function updatePaymentUI() {
+            const selected = document.querySelector('input[name="payment_method"]:checked');
+            if (selected.value === 'stripe') {
+                stripePayBtn.style.display = 'block';
+                bankInfo.style.display = 'none';
+                payBtn.style.display = 'none';
+            } else {
+                stripePayBtn.style.display = 'none';
+                bankInfo.style.display = 'block';
+                payBtn.style.display = 'block';
+                payBtn.innerHTML = '<i class="fas fa-check-circle" style="margin-right:8px; font-size:14px;"></i> I\'ve Paid, Complete My Order!';
+            }
+        }
+
         paymentRadios.forEach(radio => {
             radio.addEventListener('change', (e) => {
                 document.querySelectorAll('.payment-opt').forEach(opt => opt.classList.remove('active'));
                 e.target.closest('.payment-opt').classList.add('active');
-                
-                if (e.target.value === 'stripe') {
-                    stripeInfo.style.display = 'block';
-                    bankInfo.style.display = 'none';
-                    payBtn.innerHTML = '<i class="fas fa-lock" style="margin-right:8px; font-size:14px;"></i> Pay Now';
-                } else {
-                    stripeInfo.style.display = 'none';
-                    bankInfo.style.display = 'block';
-                    payBtn.innerHTML = '<i class="fas fa-check-circle" style="margin-right:8px; font-size:14px;"></i> I\'ve Paid, Complete My Order!';
-                }
+                updatePaymentUI();
             });
         });
+
+        // Initial setup
+        updatePaymentUI();
 
         // Toggle Billing Address Fields
         billingRadios.forEach(radio => {
@@ -792,10 +827,11 @@
                     return;
                 }
 
-                // Disable button and show loading state
-                payBtn.disabled = true;
-                const originalBtnText = payBtn.innerHTML;
-                payBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                // Disable button and show loading state on the clicked button
+                const submitter = e.submitter || (paymentMethod === 'stripe' ? stripePayBtn : payBtn);
+                submitter.disabled = true;
+                const originalBtnText = submitter.innerHTML;
+                submitter.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
 
                 try {
                     if (paymentMethod === 'stripe') {
@@ -804,6 +840,7 @@
                         cart.forEach(item => subtotal += (item.price * item.qty));
                         let shippingAmount = subtotal >= 200 ? 0 : 15.00;
 
+                        console.log('Initiating Stripe checkout...');
                         const response = await fetch('/api/checkout', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
@@ -814,11 +851,17 @@
                             }),
                         });
 
+                        if (!response.ok) {
+                            const errorData = await response.json();
+                            throw new Error(errorData.error || `Server responded with ${response.status}`);
+                        }
+
                         const data = await response.json();
                         if (data.url) {
+                            console.log('Redirecting to Stripe:', data.url);
                             window.location.href = data.url;
                         } else {
-                            throw new Error(data.error || 'Stripe initialization failed.');
+                            throw new Error(data.error || 'Stripe initialization failed (no URL returned).');
                         }
 
                     } else {
@@ -839,11 +882,11 @@
                         }, 1200);
                     }
 
-                } catch (error) {
-                    console.error('Checkout Error:', error);
-                    alert('Checkout failed: ' + error.message);
-                    payBtn.disabled = false;
-                    payBtn.innerHTML = originalBtnText;
+                } catch (err) {
+                    console.error('Checkout Error:', err);
+                    alert('Checkout failed: ' + err.message);
+                    submitter.disabled = false;
+                    submitter.innerHTML = originalBtnText;
                 }
             });
         }

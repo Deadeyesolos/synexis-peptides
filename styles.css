@@ -213,30 +213,48 @@ img {
 
 .mobile-menu-btn {
   display: none;
-  background: none;
-  border: none;
-  color: var(--text-muted);
+  background: rgba(6, 9, 15, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  color: var(--text-light);
   font-size: 20px;
   cursor: pointer;
-  padding: 4px;
-  transition: color 0.2s;
+  padding: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  transition: all 0.25s ease;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 .mobile-menu-btn:hover {
   color: #fff;
+  background: rgba(59, 130, 246, 0.25);
+  border-color: var(--primary);
 }
 
 /* Mobile Nav Drawer */
 .mobile-nav {
   display: none;
   flex-direction: column;
-  background: var(--bg-mid);
-  position: absolute;
-  top: 100%;
+  background: #06090f;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  z-index: 999;
-  border-bottom: 1px solid var(--border);
-  padding: 8px 0;
+  height: 100vh;
+  z-index: 1050;
+  padding: 80px 0 40px;
+  overflow-y: auto;
+  animation: mobileNavSlideIn 0.3s ease;
+}
+
+@keyframes mobileNavSlideIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .mobile-nav.active {
@@ -244,10 +262,11 @@ img {
 }
 
 .mobile-nav .nav-link {
-  padding: 14px 6%;
+  padding: 18px 8%;
   border-bottom: 1px solid var(--border);
-  font-size: 14px;
+  font-size: 16px;
   color: var(--text-light);
+  transition: all 0.2s;
 }
 
 .mobile-nav .nav-link:last-child {
@@ -257,6 +276,7 @@ img {
 .mobile-nav .nav-link:hover {
   background: var(--primary-dim);
   color: var(--primary-light);
+  padding-left: 10%;
 }
 
 /* =============================================
@@ -626,6 +646,7 @@ img {
   position: absolute;
   top: 14px;
   right: 14px;
+  left: auto;
   z-index: 10;
 }
 
@@ -658,7 +679,8 @@ img {
 .product-photo {
   width: auto;
   max-width: 80%;
-  height: 85%;
+  max-height: 85%;
+  height: auto;
   object-fit: contain;
   transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
   filter: drop-shadow(0 8px 24px rgba(0,0,0,0.5));
@@ -1683,7 +1705,14 @@ img {
 
   .nav-left { display: none; }
   .nav-right .nav-link { display: none; }
-  .mobile-menu-btn { display: block; }
+
+  .mobile-menu-btn {
+    display: flex;
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 1100;
+  }
 
   .nav-icons {
     border-left: none;
@@ -2069,16 +2098,17 @@ img {
    ============================================= */
 
 .bundles-section {
-  padding: 80px 20px;
+  padding: 96px 5%;
   max-width: 1480px;
   margin: 0 auto;
 }
 
-.bundles-grid {
+.bundles-grid,
+.bundles-section .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 24px;
-  margin-top: 48px;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 28px;
+  margin-top: 0;
 }
 
 .bundle-hero-card {

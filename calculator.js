@@ -1,5 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // === Mobile Menu (for calculator page) ===
+    const mobileBtn = document.querySelector('.mobile-menu-btn');
+    const mobileNav = document.querySelector('.mobile-nav');
+
+    if (mobileBtn && mobileNav) {
+        mobileBtn.addEventListener('click', () => {
+            mobileNav.classList.toggle('active');
+            const icon = mobileBtn.querySelector('i');
+            const isOpen = mobileNav.classList.contains('active');
+            icon.classList.toggle('fa-bars', !isOpen);
+            icon.classList.toggle('fa-times', isOpen);
+        });
+
+        // Close mobile nav when clicking a link
+        mobileNav.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNav.classList.remove('active');
+                const icon = mobileBtn.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            });
+        });
+    }
+
     // === Core Inputs ===
     const iWeight = document.getElementById('peptideWeight');
     const iWater = document.getElementById('waterVolume');
@@ -21,12 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const durationToggle = document.getElementById('durationToggle');
     const durationConfig = document.getElementById('durationConfig');
     const durationSlider = document.getElementById('durationSlider');
-    const durationDisplayValue = document.getElementById('durationDisplayValue');
-    const durationDisplayUnit = document.getElementById('durationDisplayUnit');
-    const durationUnitSelector = document.getElementById('durationUnitSelector');
-    const durationMinLabel = document.getElementById('durationMinLabel');
-    const durationMaxLabel = document.getElementById('durationMaxLabel');
     const durationResultsPanel = document.getElementById('durationResults');
+
+    // New Duration Input Fields
+    const durationDaysInput = document.getElementById('durationDaysInput');
+    const durationDoseInput = document.getElementById('durationDoseInput');
+    const durationDosesPerDay = document.getElementById('durationDosesPerDay');
 
     // Duration output elements
     const resTotalDoses = document.getElementById('resTotalDoses');
@@ -46,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // === State ===
     let peptideCounter = 0;
     let syringeSize = 1; // mL (1, 0.5, or 0.3)
-    let durationUnit = 'days'; // 'days' or 'weeks'
+    let lastEditedDurationField = 'dose'; // Which field was last edited by user
 
     // Color palette for peptide entries
     const peptideColors = [
@@ -95,51 +119,51 @@ document.addEventListener('DOMContentLoaded', () => {
         const isActive = durationToggle.checked;
         durationConfig.classList.toggle('active', isActive);
         durationResultsPanel.classList.toggle('active', isActive);
-        if (isActive) calculate();
-    });
-
-    // === Duration Unit Selector ===
-    durationUnitSelector.addEventListener('click', (e) => {
-        const btn = e.target.closest('.duration-unit-btn');
-        if (!btn) return;
-
-        durationUnitSelector.querySelectorAll('.duration-unit-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        durationUnit = btn.dataset.unit;
-
-        // Update slider range based on unit
-        if (durationUnit === 'days') {
-            durationSlider.min = 5;
-            durationSlider.max = 365;
-            // Convert current weeks value to approximate days
-            const currentWeeks = parseInt(durationSlider.value);
-            durationSlider.value = Math.min(365, Math.max(5, currentWeeks * 7));
-            durationMinLabel.textContent = '5 days';
-            durationMaxLabel.textContent = '365 days';
-        } else {
-            durationSlider.min = 1;
-            durationSlider.max = 52;
-            // Convert current days value to approximate weeks
-            const currentDays = parseInt(durationSlider.value);
-            durationSlider.value = Math.min(52, Math.max(1, Math.round(currentDays / 7)));
-            durationMinLabel.textContent = '1 week';
-            durationMaxLabel.textContent = '52 weeks';
+        if (isActive) {
+            // Sync dose input with main target dose
+            durationDoseInput.value = iTarget.value;
+            calculateDuration();
         }
-
-        updateDurationDisplay();
-        calculate();
     });
+
+    // === Duration Input Fields ===
+    // When user changes Days input
+    if (durationDaysInput) {
+        durationDaysInput.addEventListener('input', () => {
+            lastEditedDurationField = 'days';
+            // Sync slider
+            durationSlider.value = durationDaysInput.value;
+            calculateDuration();
+        });
+    }
+
+    // When user changes Dose Per Admin
+    if (durationDoseInput) {
+        durationDoseInput.addEventListener('input', () => {
+            lastEditedDurationField = 'dose';
+            // Also update the main target dose field to keep them in sync
+            iTarget.value = durationDoseInput.value;
+            calculate();
+        });
+    }
+
+    // When user changes Doses Per Day
+    if (durationDosesPerDay) {
+        durationDosesPerDay.addEventListener('input', () => {
+            lastEditedDurationField = 'dosesPerDay';
+            calculateDuration();
+        });
+    }
 
     // === Duration Slider ===
-    durationSlider.addEventListener('input', () => {
-        updateDurationDisplay();
-        calculate();
-    });
-
-    function updateDurationDisplay() {
-        const val = parseInt(durationSlider.value);
-        durationDisplayValue.textContent = val;
-        durationDisplayUnit.textContent = durationUnit;
+    if (durationSlider) {
+        durationSlider.addEventListener('input', () => {
+            lastEditedDurationField = 'days';
+            if (durationDaysInput) {
+                durationDaysInput.value = durationSlider.value;
+            }
+            calculateDuration();
+        });
     }
 
     // === Add a Peptide Row ===
@@ -222,7 +246,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // === Get Syringe Info ===
     function getSyringeUnits() {
-        // All syringes are U-100 (100 units per mL)
         const totalUnits = Math.round(syringeSize * 100);
         return totalUnits;
     }
@@ -231,15 +254,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (syringeSize === 0.3) return 'U-30 (0.3mL)';
         if (syringeSize === 0.5) return 'U-50 (0.5mL)';
         return 'U-100 (1mL)';
-    }
-
-    // === Get Duration in Days ===
-    function getDurationDays() {
-        const val = parseInt(durationSlider.value) || 30;
-        if (durationUnit === 'weeks') {
-            return val * 7;
-        }
-        return val;
     }
 
     // === Main Calculation ===
@@ -267,8 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Volume to draw
         const volumeMl = targetMg / concMgPerMl;
 
-        // Syringe ticks: units = volume * (totalUnits / syringeSize)
-        // For U-100: 100 units per mL regardless of syringe size
+        // Syringe ticks
         const unitsPerMl = 100;
         const ticks = volumeMl * unitsPerMl;
 
@@ -281,7 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
         syringeInfo.textContent = getSyringeLabel();
         ticksLabel.textContent = `Units on a ${syringeSize}mL syringe`;
 
-        // Syringe graphic fill (relative to selected syringe size)
+        // Syringe graphic fill
         let fillPercent = Math.min((volumeMl / syringeSize) * 100, 100);
         syringeLiquid.style.width = `${fillPercent}%`;
 
@@ -302,9 +315,157 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Duration results
         if (durationToggle.checked) {
-            updateDurationResults(weightMg, targetMcg);
+            // Sync dose input if the main target dose was changed directly
+            if (durationDoseInput && document.activeElement !== durationDoseInput) {
+                durationDoseInput.value = Math.round(targetMcg);
+            }
+            calculateDuration();
         } else {
             clearDurationResults();
+        }
+    }
+
+    // === Duration Calculation (bidirectional) ===
+    function calculateDuration() {
+        const weightMg = parseFloat(iWeight.value) || 0;
+        if (weightMg <= 0) {
+            clearDurationResults();
+            return;
+        }
+
+        const weightMcg = weightMg * 1000;
+        let days = parseFloat(durationDaysInput?.value) || 30;
+        let dosePerAdmin = parseFloat(durationDoseInput?.value) || 500;
+        let dosesPerDay = parseFloat(durationDosesPerDay?.value) || 1;
+
+        // Bi-directional calculation based on which field was last edited
+        // Total consumption per day = dosePerAdmin * dosesPerDay
+        // Total vial mcg = weightMcg
+        // days = weightMcg / (dosePerAdmin * dosesPerDay)
+        // dosePerAdmin = weightMcg / (days * dosesPerDay)
+        // dosesPerDay = weightMcg / (days * dosePerAdmin)
+
+        switch (lastEditedDurationField) {
+            case 'days':
+                // User changed days → recalculate dose per admin
+                if (days > 0 && dosesPerDay > 0) {
+                    dosePerAdmin = weightMcg / (days * dosesPerDay);
+                    if (durationDoseInput) durationDoseInput.value = Math.round(dosePerAdmin);
+                    // Also update main target dose
+                    iTarget.value = Math.round(dosePerAdmin);
+                    // Recalc reconstitution without retriggering duration
+                    recalcReconstitution();
+                }
+                break;
+            case 'dose':
+                // User changed dose → recalculate days
+                if (dosePerAdmin > 0 && dosesPerDay > 0) {
+                    days = weightMcg / (dosePerAdmin * dosesPerDay);
+                    if (durationDaysInput) durationDaysInput.value = Math.round(days);
+                    if (durationSlider) durationSlider.value = Math.min(365, Math.max(1, Math.round(days)));
+                }
+                break;
+            case 'dosesPerDay':
+                // User changed doses per day → recalculate days
+                if (dosePerAdmin > 0 && dosesPerDay > 0) {
+                    days = weightMcg / (dosePerAdmin * dosesPerDay);
+                    if (durationDaysInput) durationDaysInput.value = Math.round(days);
+                    if (durationSlider) durationSlider.value = Math.min(365, Math.max(1, Math.round(days)));
+                }
+                break;
+        }
+
+        // Ensure values are sensible
+        days = Math.max(0.1, days);
+        dosePerAdmin = Math.max(0.1, dosePerAdmin);
+        dosesPerDay = Math.max(0.1, dosesPerDay);
+
+        // Calculate display values
+        const totalDailyMcg = dosePerAdmin * dosesPerDay;
+        const totalDoses = weightMcg / dosePerAdmin;
+        const doseFrequency = days / totalDoses; // days between doses
+
+        // Format duration label
+        const daysRounded = Math.round(days);
+        const unitLabel = daysRounded === 1 ? '1 day' : `${daysRounded} days`;
+
+        // Update outputs
+        if (resTotalDoses) {
+            resTotalDoses.textContent = totalDoses < 1 ? totalDoses.toFixed(1) : Math.floor(totalDoses);
+        }
+
+        // Dose frequency
+        if (resDoseFrequency) {
+            if (dosesPerDay >= 1 && dosesPerDay <= 1.05) {
+                resDoseFrequency.textContent = '1';
+                resDoseFrequency.nextElementSibling && (resDoseFrequency.closest('.result-value').querySelector('.unit-sm') || {}).textContent;
+            } else {
+                resDoseFrequency.textContent = dosesPerDay.toFixed(1);
+            }
+        }
+
+        if (resDurationTarget) resDurationTarget.textContent = unitLabel;
+        if (resRequiredDose) resRequiredDose.textContent = Math.round(dosePerAdmin);
+
+        // Build the note text
+        if (resDurationNote) {
+            const roundedDose = Math.round(dosePerAdmin);
+            const roundedDosesPerDay = Math.round(dosesPerDay);
+
+            if (roundedDosesPerDay === 1) {
+                resDurationNote.textContent = `Administer ${roundedDose} mcg once daily — vial lasts ${unitLabel}`;
+            } else {
+                resDurationNote.textContent = `Administer ${roundedDose} mcg × ${roundedDosesPerDay}/day — vial lasts ${unitLabel}`;
+            }
+        }
+
+        // Progress bar
+        if (durationProgressFill) {
+            const maxDays = 365;
+            const progressPercent = Math.min((days / maxDays) * 100, 100);
+            durationProgressFill.style.width = `${progressPercent}%`;
+        }
+
+        if (durationEndLabel) {
+            durationEndLabel.textContent = `Day ${Math.round(days)}`;
+        }
+
+        if (durationResultsPanel) durationResultsPanel.classList.add('active');
+    }
+
+    // === Recalculate reconstitution outputs without triggering full calculate ===
+    function recalcReconstitution() {
+        const weightMg = parseFloat(iWeight.value) || 0;
+        const waterMl = parseFloat(iWater.value) || 0;
+        const targetMcg = parseFloat(iTarget.value) || 0;
+
+        if (weightMg <= 0 || waterMl <= 0 || targetMcg <= 0) return;
+
+        const concMgPerMl = weightMg / waterMl;
+        const targetMg = targetMcg / 1000;
+        const volumeMl = targetMg / concMgPerMl;
+        const ticks = volumeMl * 100;
+
+        rVolume.textContent = volumeMl.toFixed(2);
+        rTicks.textContent = Math.round(ticks);
+        rConc.textContent = concMgPerMl.toFixed(1);
+
+        syringeInfo.textContent = getSyringeLabel();
+        ticksLabel.textContent = `Units on a ${syringeSize}mL syringe`;
+
+        let fillPercent = Math.min((volumeMl / syringeSize) * 100, 100);
+        syringeLiquid.style.width = `${fillPercent}%`;
+
+        const syringeBody = document.querySelector('.syringe-body');
+        if (volumeMl > syringeSize) {
+            syringeBody.classList.add('overflow');
+        } else {
+            syringeBody.classList.remove('overflow');
+        }
+
+        // Blend results
+        if (blendToggle.checked) {
+            updateBlendResults(targetMcg, weightMg);
         }
     }
 
@@ -345,73 +506,22 @@ document.addEventListener('DOMContentLoaded', () => {
         blendResults.innerHTML = '';
     }
 
-    // === Update Duration Results ===
-    function updateDurationResults(weightMg, targetMcg) {
-        const totalDays = getDurationDays();
-        const weightMcg = weightMg * 1000; // Convert mg to mcg
-
-        // Total doses in the vial at current target dose
-        const totalDoses = weightMcg / targetMcg;
-
-        // How often you'd need to dose (days between doses) to make it last
-        const doseFrequency = totalDays / totalDoses;
-
-        // Required dose per day to make vial last (assuming daily dosing)
-        const requiredDailyDose = weightMcg / totalDays;
-
-        // Display value for the slider's unit
-        const sliderVal = parseInt(durationSlider.value);
-        const unitLabel = durationUnit === 'weeks'
-            ? (sliderVal === 1 ? '1 week' : `${sliderVal} weeks`)
-            : (sliderVal === 1 ? '1 day' : `${sliderVal} days`);
-
-        // Update outputs
-        resTotalDoses.textContent = totalDoses < 1 ? totalDoses.toFixed(1) : Math.floor(totalDoses);
-        
-        // Dose frequency formatting
-        if (doseFrequency >= 1) {
-            resDoseFrequency.textContent = doseFrequency.toFixed(1);
-        } else {
-            // Less than 1 day between doses = multiple doses per day
-            const dosesPerDay = 1 / doseFrequency;
-            resDoseFrequency.textContent = (doseFrequency * 24).toFixed(0) + ' hrs';
-        }
-
-        resDurationTarget.textContent = unitLabel;
-        resRequiredDose.textContent = Math.round(requiredDailyDose);
-
-        // Build the note text
-        const roundedDose = Math.round(requiredDailyDose);
-        if (doseFrequency >= 1 && doseFrequency <= 1.05) {
-            resDurationNote.textContent = `Inject ${roundedDose} mcg once daily to make this vial last ${unitLabel}`;
-        } else if (doseFrequency > 1.05) {
-            const freqDays = doseFrequency.toFixed(1);
-            resDurationNote.textContent = `Inject ${Math.round(targetMcg)} mcg every ${freqDays} days — vial lasts ${unitLabel} at current dose`;
-        } else {
-            resDurationNote.textContent = `Requires ${roundedDose} mcg daily to stretch vial across ${unitLabel}`;
-        }
-
-        // Progress bar: show how much of the max range this represents
-        const maxDays = durationUnit === 'weeks' ? 52 * 7 : 365;
-        const progressPercent = Math.min((totalDays / maxDays) * 100, 100);
-        durationProgressFill.style.width = `${progressPercent}%`;
-        durationEndLabel.textContent = durationUnit === 'weeks'
-            ? `Week ${sliderVal}`
-            : `Day ${sliderVal}`;
-
-        durationResultsPanel.classList.add('active');
-    }
-
     function clearDurationResults() {
-        durationResultsPanel.classList.remove('active');
+        if (durationResultsPanel) durationResultsPanel.classList.remove('active');
     }
 
     // === Attach Core Listeners ===
     [iWeight, iWater, iTarget].forEach(input => {
-        input.addEventListener('input', calculate);
+        input.addEventListener('input', () => {
+            // If duration is on and user edits main target dose, sync it
+            if (durationToggle.checked && input === iTarget && durationDoseInput) {
+                durationDoseInput.value = input.value;
+                lastEditedDurationField = 'dose';
+            }
+            calculate();
+        });
     });
 
     // Run once on load
     calculate();
 });
-

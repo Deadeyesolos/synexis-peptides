@@ -32,7 +32,7 @@
 
 <body>
     <!-- Navigation -->
-    <nav class="navbar">
+    <nav class="navbar" id="mainNav">
         <div class="nav-left">
             <a href="index.html#home" class="nav-link">Home</a>
             <a href="index.html#products" class="nav-link">All Peptides</a>
@@ -53,7 +53,17 @@
                 </a>
             </div>
         </div>
+        <button class="mobile-menu-btn" aria-label="Open menu"><i class="fas fa-bars"></i></button>
     </nav>
+    <div class="mobile-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="index.html#products" class="nav-link">Shop All</a>
+        <a href="index.html#best-sellers" class="nav-link">Best Sellers</a>
+        <a href="coa.html" class="nav-link">Batch Testing (COA)</a>
+        <a href="calculator.html" class="nav-link" style="color: var(--primary);">Calculator</a>
+        <a href="index.html#faq" class="nav-link">FAQs</a>
+        <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
 
     <!-- Calculator Section -->
     <section class="calculator-section">
@@ -138,25 +148,41 @@
 
                     <!-- Duration Config -->
                     <div class="duration-config" id="durationConfig">
-                        <div class="input-group">
-                            <label for="durationValue">Make Vial Last</label>
-                            <div class="duration-input-row">
-                                <input type="range" id="durationSlider" min="5" max="365" value="30" class="duration-slider">
-                                <div class="duration-display">
-                                    <span id="durationDisplayValue">30</span>
-                                    <span id="durationDisplayUnit">days</span>
+                        <div class="duration-fields-grid">
+                            <!-- Duration (Days) -->
+                            <div class="input-group duration-field">
+                                <label for="durationDaysInput"><i class="fas fa-calendar-day" style="color: #8A5BFF; margin-right: 6px;"></i>Duration</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="durationDaysInput" value="30" min="1" max="365" step="1" data-calc-field="days">
+                                    <span class="unit">days</span>
                                 </div>
                             </div>
-                            <div class="duration-unit-selector" id="durationUnitSelector">
-                                <button class="duration-unit-btn active" data-unit="days">Days</button>
-                                <button class="duration-unit-btn" data-unit="weeks">Weeks</button>
+                            <!-- Dose Per Admin -->
+                            <div class="input-group duration-field">
+                                <label for="durationDoseInput"><i class="fas fa-syringe" style="color: #8A5BFF; margin-right: 6px;"></i>Dose / Admin</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="durationDoseInput" value="500" min="1" step="1" data-calc-field="dose">
+                                    <span class="unit">mcg</span>
+                                </div>
                             </div>
-                            <div class="duration-range-labels">
-                                <span id="durationMinLabel">5 days</span>
-                                <span id="durationMaxLabel">365 days</span>
+                            <!-- Doses Per Day -->
+                            <div class="input-group duration-field">
+                                <label for="durationDosesPerDay"><i class="fas fa-redo" style="color: #8A5BFF; margin-right: 6px;"></i>Doses / Day</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="durationDosesPerDay" value="1" min="1" max="10" step="1" data-calc-field="dosesPerDay">
+                                    <span class="unit">x</span>
+                                </div>
                             </div>
-                            <small><i class="fas fa-info-circle"></i> Adjusts dosage to fit your target timeline</small>
                         </div>
+                        <!-- Slider as secondary visual control -->
+                        <div class="duration-slider-row">
+                            <input type="range" id="durationSlider" min="1" max="365" value="30" class="duration-slider">
+                            <div class="duration-range-labels">
+                                <span>1 day</span>
+                                <span>365 days</span>
+                            </div>
+                        </div>
+                        <small><i class="fas fa-info-circle"></i> Change any field — the others auto-adjust to balance the vial</small>
                     </div>
                 </div>
 
