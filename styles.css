@@ -2,6 +2,17 @@
    SYNEXIS PEPTIDES — PREMIUM THEME
    ============================================= */
 
+/* Hide number input spin buttons (scroll arrows) globally */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 :root {
   --bg-dark:       #06090f;
   --bg-mid:        #0a0e1a;

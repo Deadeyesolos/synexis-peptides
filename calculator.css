@@ -1,5 +1,16 @@
 /* Calculator Specific Styles */
 
+/* Hide number input spin buttons (scroll arrows) globally */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
 .calculator-section {
     padding: 80px 5% 120px;
     min-height: 80vh;
@@ -703,26 +714,41 @@
     white-space: nowrap;
 }
 
+.duration-field .input-with-unit {
+    flex-direction: column;
+    gap: 0;
+}
+
 .duration-field .input-with-unit input {
-    font-size: 16px;
-    padding: 12px 42px 12px 10px;
+    font-size: 18px;
+    padding: 10px 12px;
     border-color: rgba(138, 91, 255, 0.25);
     background: rgba(138, 91, 255, 0.06);
     text-align: center;
+    border-radius: 8px 8px 0 0;
+    border-bottom: none;
 }
 
 .duration-field .input-with-unit input:focus {
     border-color: #8A5BFF;
     box-shadow: 0 0 12px rgba(138, 91, 255, 0.3);
+    border-bottom: none;
 }
 
 .duration-field .input-with-unit .unit {
+    position: static;
+    display: block;
+    text-align: center;
     color: #8A5BFF;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    right: 8px;
+    letter-spacing: 1px;
+    padding: 4px 0;
+    background: rgba(138, 91, 255, 0.1);
+    border: 1px solid rgba(138, 91, 255, 0.25);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
 }
 
 /* Slider row below the fields */
@@ -950,8 +976,8 @@
     }
 
     .duration-field .input-with-unit input {
-        padding: 10px 38px 10px 6px;
-        font-size: 15px;
+        padding: 8px 8px;
+        font-size: 16px;
     }
 }
 
