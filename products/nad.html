@@ -25,7 +25,7 @@
         "@type": "Offer",
         "url": "https://synexispeptides.com.au/products/nad.html",
         "priceCurrency": "AUD",
-        "price": "159.95",
+        "price": "99.00",
         "itemCondition": "https://schema.org/NewCondition",
         "availability": "https://schema.org/InStock"
       }
@@ -96,17 +96,19 @@
     </div>
 
 
+
+
     <section class="product-detail-section">
         <div class="breadcrumb"><a href="../index.html">Home</a> <i class="fas fa-chevron-right"></i> <a href="../index.html#products">Peptides</a> <i class="fas fa-chevron-right"></i> <span>NAD+</span></div>
         <div class="product-detail-grid">
-            <div class="product-detail-image"><img src="../Photos/BPC-157 20mg.png" alt="NAD+ 500mg" class="product-detail-photo"></div>
+            <div class="product-detail-image"><img src="../Photos/NAD+500mg.png" alt="NAD+" class="product-detail-photo"></div>
             <div class="product-detail-content">
                 <div class="product-subtitle">Nicotinamide Adenine Dinucleotide</div>
-                <h1>NAD+ (500mg)</h1>
+                <h1>NAD+</h1>
                 <div class="product-stock-badge in-stock"><i class="fas fa-circle"></i> In Stock</div>
                 <div class="detail-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>3 Reviews</span></div>
-                <div class="detail-price-box"><span class="original-price">$134.95 AUD</span><span class="current-price" id="selectedPrice">$94.95 AUD</span><span class="save-badge">Save $40</span></div>
-                <div class="variant-selector"><label>Vial Size</label><div class="variant-options"><button class="variant-btn active" onclick="selectVariant(this,'$109.95 AUD')">500mg</button></div></div>
+                <div class="detail-price-box"><span class="current-price" id="selectedPrice">$99.00 AUD</span></div>
+                <div class="variant-selector"><label>Select Size</label><div class="variant-options"><button class="variant-btn active" onclick="selectVariant(this, '$99.00 AUD', 'NAD+ 500mg')">500mg</button><button class="variant-btn" onclick="selectVariant(this, '$190.00 AUD', 'NAD+ 1000mg')">1000mg</button></div></div>
                 <div class="product-description"><p>NAD+ (Nicotinamide Adenine Dinucleotide) is a vital coenzyme found in all living cells. It plays a central role in cellular energy metabolism and has been extensively studied in relation to mitochondrial function, sirtuin activation, and cellular ageing processes.</p></div>
                 <div class="detail-science">
                     <h3>Research Identifiers</h3>
@@ -131,7 +133,7 @@
                 <div class="inventory-indicator in-stock" style="margin-bottom: 16px; padding: 12px 16px; background: rgba(29, 209, 161, 0.1); border: 1px solid rgba(29, 209, 161, 0.2); border-radius: 8px; color: #1dd1a1; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 10px;"><i class="fas fa-check-circle"></i> <span>In Stock & Ready to Dispatch</span></div>
                 <div class="detail-actions">
                     <div class="qty-wrapper"><button class="qty-decrease" onclick="adjustQty(-1)"><i class="fas fa-minus"></i></button><input type="number" class="qty-input" value="1" min="1" id="qtyInput"><button class="qty-increase" onclick="adjustQty(1)"><i class="fas fa-plus"></i></button></div>
-                    <div class="add-btn" onclick="addToCartPage('NAD+', document.getElementById('selectedPrice').textContent)">Add to Cart — <span id="cartBtnPrice">$94.95</span></div>
+                    <div class="add-btn" onclick="addToCartPage('NAD+', document.getElementById('selectedPrice').textContent)">Add to Cart — <span id="cartBtnPrice">$99.00</span></div>
                 </div>
                 <div class="detail-trust"><div class="detail-trust-item"><i class="fas fa-vial"></i>Batch-Tested</div><div class="detail-trust-item"><i class="fas fa-truck-fast"></i>Fast Dispatch</div><div class="detail-trust-item"><i class="fas fa-shield-halved"></i>Secure Checkout</div><div class="detail-trust-item"><i class="fas fa-headset"></i>Support</div></div>
             </div>
@@ -144,9 +146,9 @@
             <h3>Frequently Bought Together</h3>
             <div class="bundle-items">
                 <div class="bundle-item main">
-                    <img src="../Photos/BPC-157 10mg.png" alt="Research Compound">
+                    <img src="../Photos/NAD+500mg.png" alt="NAD+">
                     <div class="bundle-item-info">
-                        <strong>This item:</strong> <span>Research Compound</span>
+                        <strong>This item:</strong> <span>NAD+ 500mg</span>
                     </div>
                 </div>
                 
@@ -155,18 +157,18 @@
                     <img src="../Photos/BAC Water 3ml.png" alt="Bacteriostatic Water">
                     <div class="bundle-item-info">
                         <strong>Add-on:</strong> <span>Bacteriostatic Water</span>
-                        <div class="bundle-item-price">$19.95</div>
+                        <div class="bundle-item-price">$16.95</div>
                     </div>
                 </div>
                 
             </div>
             <div class="bundle-summary">
                 <div class="bundle-price-box">
-                    <span class="bundle-old-price">$149.90</span>
-                    <span class="bundle-new-price">$135.00 AUD</span>
-                    <span class="bundle-save">Save $14.90</span>
+                    <span class="bundle-old-price">$115.95</span>
+                    <span class="bundle-new-price">$105.95 AUD</span>
+                    <span class="bundle-save">Save $10.00</span>
                 </div>
-                <button class="add-bundle-btn" onclick='addBundleToCart([{name: "Research Compound", price: "129.95", image: "../Photos/BPC-157 10mg.png", qty: 1}, {name: "Bacteriostatic Water", price: "25", image: "../Photos/BAC Water 3ml.png", qty: 1}])'>
+                <button class="add-bundle-btn" onclick='addBundleToCart([{name: "NAD+ 500mg", price: "99.00", image: "../Photos/NAD+500mg.png", qty: 1}, {name: "Bacteriostatic Water 10ml", price: "16.95", image: "../Photos/BAC Water 3ml.png", qty: 1}])'>
                     Add Bundle to Cart
                 </button>
             </div>
@@ -220,14 +222,14 @@
         <div class="related-products">
             <h2>Researchers also viewed</h2>
             <div class="related-grid">
-                <a href="retatrutide.html" class="product-card-link"><div class="product-card"><div class="product-badge sale">Sale</div><div class="product-image"><img src="../Photos/Retatrutide 10mg.png" alt="Retatrutide" class="product-photo"></div><div class="product-info"><div class="product-strength">10mg · 20mg · 30mg / Vial</div><h3>Retatrutide</h3><div class="price-container"><span class="price">From $159.95 AUD</span></div><div class="add-btn">View Product</div></div></div></a>
-                <a href="tesamorelin.html" class="product-card-link"><div class="product-card"><div class="product-badge sale">Sale</div><div class="product-image"><img src="../Photos/Tesamorelin 10mg.png" alt="Tesamorelin" class="product-photo"></div><div class="product-info"><div class="product-strength">10mg · 20mg / Vial</div><h3>Tesamorelin</h3><div class="price-container"><span class="price">From $119.95 AUD</span></div><div class="add-btn">View Product</div></div></div></a>
-                <a href="cjc1295-ipamorelin.html" class="product-card-link"><div class="product-card"><div class="product-badge blend">Blend</div><div class="product-image"><img src="../Photos/BpcTb5 10mg.png" alt="CJC+Ipa" class="product-photo"></div><div class="product-info"><div class="product-strength">10mg / Vial</div><h3>CJC-1295 + Ipamorelin</h3><div class="price-container"><span class="price">From $139.95 AUD</span></div><div class="add-btn">View Product</div></div></div></a>
+                <a href="retatrutide.html" class="product-card-link"><div class="product-card"><div class="product-image"><img src="../Photos/Retatrutide 10mg.png" alt="Retatrutide" class="product-photo"></div><div class="product-info"><div class="product-strength">10mg · 20mg · 30mg / Vial</div><h3>Retatrutide</h3><div class="price-container"><span class="price">From $101.95 AUD</span></div><div class="add-btn">View Product</div></div></div></a>
+                <a href="tesamorelin.html" class="product-card-link"><div class="product-card"><div class="product-image"><img src="../Photos/Tesamorelin 10mg.png" alt="Tesamorelin" class="product-photo"></div><div class="product-info"><div class="product-strength">10mg · 20mg / Vial</div><h3>Tesamorelin</h3><div class="price-container"><span class="price">From $109.95 AUD</span></div><div class="add-btn">View Product</div></div></div></a>
+                <a href="cjc1295-ipamorelin.html" class="product-card-link"><div class="product-card"><div class="product-badge blend">Blend</div><div class="product-image"><img src="../Photos/BpcTb5 10mg.png" alt="CJC+Ipa" class="product-photo"></div><div class="product-info"><div class="product-strength">10mg / Vial</div><h3>CJC-1295 + Ipamorelin Blend</h3><div class="price-container"><span class="price">From $109.95 AUD</span></div><div class="add-btn">View Product</div></div></div></a>
             </div>
         </div>
     </section>
 
-    <div class="sticky-atc-bar" id="stickyBar"><div class="sticky-atc-info"><strong>NAD+ (500mg)</strong><span id="stickyPrice">$94.95 AUD</span></div><button class="sticky-atc-btn" onclick="addToCartPage('NAD+', document.getElementById('selectedPrice').textContent)">Add to Cart</button></div>
+    <div class="sticky-atc-bar" id="stickyBar"><div class="sticky-atc-info"><strong>NAD+</strong><span id="stickyPrice">$99.00 AUD</span></div><button class="sticky-atc-btn" onclick="addToCartPage('NAD+', document.getElementById('selectedPrice').textContent)">Add to Cart</button></div>
 
     
     <!-- ==================== CART DRAWER ==================== -->
@@ -310,10 +312,29 @@
         </div>
     </footer>
 
+
+
     <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg">Done!</span></div>
     <script src="../script.js"></script>
     <script>
-        function selectVariant(btn,price){document.querySelectorAll('.variant-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('selectedPrice').textContent=price;document.getElementById('stickyPrice').textContent=price;document.getElementById('cartBtnPrice').textContent=price.replace(' AUD','');}
+        function selectVariant(btn, price, name) {
+            document.querySelectorAll('.variant-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('selectedPrice').textContent = price;
+            document.getElementById('stickyPrice').textContent = price;
+            const basePrice = price.replace(' AUD','');
+            document.getElementById('cartBtnPrice').textContent = basePrice;
+            
+            // Image variant logic
+            const imgEl = document.querySelector('.product-detail-photo');
+            if (imgEl) {
+                if (name && name.includes('1000mg')) {
+                    imgEl.src = '../Photos/NAD+1000mg.png';
+                } else {
+                    imgEl.src = '../Photos/NAD+500mg.png';
+                }
+            }
+        }
         function adjustQty(d){const i=document.getElementById('qtyInput');i.value=Math.max(1,parseInt(i.value||1)+d);}
         function addToCartPage(name,price){ const imgEl=document.querySelector('.product-detail-photo'); const imgPath=imgEl?imgEl.getAttribute('src'):''; const qtyInput=document.getElementById('qtyInput'); const qty=qtyInput?parseInt(qtyInput.value):1; if(window.addToCartGlobal) window.addToCartGlobal(name, price, imgPath, qty); }
         const a=document.querySelector('.detail-actions'),b=document.getElementById('stickyBar');if(a&&b){const o=new IntersectionObserver(([e])=>{b.classList.toggle('visible',!e.isIntersecting)});o.observe(a);}

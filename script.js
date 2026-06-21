@@ -233,6 +233,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Global Add To Cart (for product pages to call)
     window.addToCartGlobal = function(name, priceStr, image, qty = 1) {
+        // Support passing a single object: { name, price/priceStr, image, qty }
+        if (typeof name === 'object' && name !== null) {
+            const obj = name;
+            name = obj.name;
+            priceStr = obj.price !== undefined ? obj.price : obj.priceStr;
+            image = obj.image;
+            qty = obj.qty !== undefined ? obj.qty : 1;
+        }
+
         let cleanPrice = priceStr.toString().replace(/[^0-9.]/g, '');
         let priceNum = parseFloat(cleanPrice) || 0;
         

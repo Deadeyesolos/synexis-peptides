@@ -25,7 +25,7 @@
         "@type": "Offer",
         "url": "https://synexispeptides.com.au/products/bac-water.html",
         "priceCurrency": "AUD",
-        "price": "25.00",
+        "price": "7.95",
         "itemCondition": "https://schema.org/NewCondition",
         "availability": "https://schema.org/OutOfStock"
       }
@@ -96,6 +96,8 @@
     </div>
 
 
+
+
     <section class="product-detail-section">
         <div class="breadcrumb"><a href="../index.html">Home</a> <i class="fas fa-chevron-right"></i> <a href="../index.html#products">Peptides</a> <i class="fas fa-chevron-right"></i> <span>Bacteriostatic Water</span></div>
         <div class="product-detail-grid">
@@ -105,7 +107,14 @@
                 <h1>Bacteriostatic Water</h1>
                 <div class="product-stock-badge sold-out"><i class="fas fa-circle"></i> Currently Restocking</div>
                 <div class="detail-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><span>12 Reviews</span></div>
-                <div class="detail-price-box"><span class="current-price" id="selectedPrice">$25.00 AUD</span></div>
+                <div class="detail-price-box"><span class="current-price" id="selectedPrice">$7.95 AUD</span></div>
+                <div class="variant-selector">
+                    <label>Select Size</label>
+                    <div class="variant-options">
+                        <button class="variant-btn active" onclick="selectVariant(this, '$7.95 AUD', 'BAC Water 3ml')">3ml</button>
+                        <button class="variant-btn" onclick="selectVariant(this, '$16.95 AUD', 'BAC Water 10ml')">10ml</button>
+                    </div>
+                </div>
 
                 <div class="notify-section">
                     <h3><i class="fas fa-bell" style="color: var(--primary-light); margin-right: 8px;"></i> Get Notified When This Restocks</h3>
@@ -140,29 +149,29 @@
             <h3>Frequently Bought Together</h3>
             <div class="bundle-items">
                 <div class="bundle-item main">
-                    <img src="../Photos/BPC-157 10mg.png" alt="Research Compound">
+                    <img src="../Photos/BPC-157 10mg.png" alt="BPC-157 10mg">
                     <div class="bundle-item-info">
-                        <strong>This item:</strong> <span>Research Compound</span>
+                        <strong>This item:</strong> <span>BPC-157 10mg</span>
                     </div>
                 </div>
                 
                 <div class="bundle-plus"><i class="fas fa-plus"></i></div>
                 <div class="bundle-item">
-                    <img src="../Photos/BAC Water 3ml.png" alt="Bacteriostatic Water">
+                    <img src="../Photos/BAC Water 3ml.png" alt="Bacteriostatic Water 10ml">
                     <div class="bundle-item-info">
-                        <strong>Add-on:</strong> <span>Bacteriostatic Water</span>
-                        <div class="bundle-item-price">$25.00</div>
+                        <strong>Add-on:</strong> <span>Bacteriostatic Water 10ml</span>
+                        <div class="bundle-item-price">$16.95</div>
                     </div>
                 </div>
                 
             </div>
             <div class="bundle-summary">
                 <div class="bundle-price-box">
-                    <span class="bundle-old-price">$144.90</span>
-                    <span class="bundle-new-price">$125.00 AUD</span>
-                    <span class="bundle-save">Save $19.90</span>
+                    <span class="bundle-old-price">$84.90</span>
+                    <span class="bundle-new-price">$74.90 AUD</span>
+                    <span class="bundle-save">Save $10.00</span>
                 </div>
-                <button class="add-bundle-btn" onclick='addBundleToCart([{name: "Research Compound", price: "129.95", image: "../Photos/BPC-157 10mg.png", qty: 1}, {name: "Bacteriostatic Water", price: "25", image: "../Photos/BAC Water 3ml.png", qty: 1}])'>
+                <button class="add-bundle-btn" onclick='addBundleToCart([{name: "BPC-157 10mg", price: 67.95, image: "../Photos/BPC-157 10mg.png", qty: 1}, {name: "Bacteriostatic Water 10ml", price: 16.95, image: "../Photos/BAC Water 3ml.png", qty: 1}])'>
                     Add Bundle to Cart
                 </button>
             </div>
@@ -216,9 +225,9 @@
         <div class="related-products">
             <h2>Browse In-Stock Products</h2>
             <div class="related-grid">
-                <a href="bpc157.html" class="product-card-link"><div class="product-card"><div class="product-image"><img src="../Photos/BPC-157 10mg.png" alt="BPC-157" class="product-photo"></div><div class="product-info"><div class="product-strength">10mg · 20mg / Vial</div><h3>BPC-157</h3><div class="price-container"><span class="price">From $129.95 AUD</span></div><div class="add-btn">View Product</div></div></div></a>
-                <a href="tb500.html" class="product-card-link"><div class="product-card"><div class="product-image"><img src="../Photos/TB-500 10mg.png" alt="TB-500" class="product-photo"></div><div class="product-info"><div class="product-strength">10mg · 20mg / Vial</div><h3>TB-500</h3><div class="price-container"><span class="price">From $129.95 AUD</span></div><div class="add-btn">View Product</div></div></div></a>
-                <a href="bpc157-tb500-blend.html" class="product-card-link"><div class="product-card"><div class="product-badge blend">Blend</div><div class="product-image"><img src="../Photos/BpcTb5 10mg.png" alt="BPC+TB Blend" class="product-photo"></div><div class="product-info"><div class="product-strength">10mg / Vial</div><h3>BPC-157 + TB-500 Blend</h3><div class="price-container"><span class="price">From $169.95 AUD</span></div><div class="add-btn">View Product</div></div></div></a>
+                <a href="bpc157.html" class="product-card-link"><div class="product-card"><div class="product-image"><img src="../Photos/BPC-157 10mg.png" alt="BPC-157" class="product-photo"></div><div class="product-info"><div class="product-strength">10mg · 20mg / Vial</div><h3>BPC-157</h3><div class="price-container"><span class="price">From $67.95 AUD</span></div><div class="add-btn">View Product</div></div></div></a>
+                <a href="tb500.html" class="product-card-link"><div class="product-card"><div class="product-image"><img src="../Photos/TB-500 10mg.png" alt="TB-500" class="product-photo"></div><div class="product-info"><div class="product-strength">10mg · 20mg / Vial</div><h3>TB-500</h3><div class="price-container"><span class="price">From $93.95 AUD</span></div><div class="add-btn">View Product</div></div></div></a>
+                <a href="bpc157-tb500-blend.html" class="product-card-link"><div class="product-card"><div class="product-badge blend">Blend</div><div class="product-image"><img src="../Photos/BpcTb5 10mg.png" alt="BPC+TB Blend" class="product-photo"></div><div class="product-info"><div class="product-strength">10mg / Vial</div><h3>BPC-157 + TB-500 Blend</h3><div class="price-container"><span class="price">From $105.95 AUD</span></div><div class="add-btn">View Product</div></div></div></a>
             </div>
         </div>
     </section>
@@ -304,8 +313,30 @@
         </div>
     </footer>
 
+
+
     <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg">Done!</span></div>
     <script src="../script.js"></script>
-    <script>function handleNotifySubmit(e){e.preventDefault();showToast("✓ You'll be notified when BAC Water restocks!");e.target.reset();}</script>
+    <script>
+        function selectVariant(btn, price, name) {
+            document.querySelectorAll('.variant-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('selectedPrice').textContent = price;
+            const imgEl = document.querySelector('.product-detail-photo');
+            if (imgEl) {
+                if (name.includes('10ml')) {
+                    imgEl.src = '../Photos/BAC Water 10ml.png';
+                } else {
+                    imgEl.src = '../Photos/BAC Water 3ml.png';
+                }
+            }
+        }
+        function handleNotifySubmit(e){
+            e.preventDefault();
+            const activeVariant = document.querySelector('.variant-btn.active').textContent;
+            showToast("✓ You'll be notified when BAC Water " + activeVariant + " restocks!");
+            e.target.reset();
+        }
+    </script>
 </body>
 </html>
